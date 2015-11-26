@@ -1,3 +1,5 @@
+/* 編集テスト */
+
 import java.awt.*;
 import javax.swing.*;
 
