@@ -6,3 +6,6 @@ This is not DDR!!
 * キーコンフィグ  
 とりあえずこんなもん 
 
+#問題点
+* layout全般
+* configで要素が選べない
