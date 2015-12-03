@@ -48,7 +48,7 @@ class Menu extends JFrame {
 
 	Menu() {
 		menuPanel = new JPanel();
-		configPanel = new JPanel();
+		configPanel = new ConfigPanel();
 		cursorObservable = new CursorObservable();
 		this.setSize(710, 620);
 		this.setTitle("Odoru Odoru Kakumei");
@@ -141,7 +141,8 @@ class Menu extends JFrame {
 				keyConfigIndividualPanel[i].setOpaque(false);
 				keyConfigIndividualPanel_Arrow[i] = new JLabel();
 				keyConfigIndividualPanel_Arrow[i].setFont(
-										new Font(MENU_INDEX.Font, Font.PLAIN, 32));											 keyConfigIndividualPanel_Arrow[i].setForeground(Color.WHITE);
+																									new Font(MENU_INDEX.Font, Font.PLAIN, 32));
+				keyConfigIndividualPanel_Arrow[i].setForeground(Color.WHITE);
 				keyConfigIndividualPanel_Arrow[i].setText(arrows[i]);
 				keyConfigIndividualPanel_Key[i] = new JButton();
 			 
@@ -164,9 +165,9 @@ class Menu extends JFrame {
 		menuPanel.addKeyListener(new menuKeyPressed());
 		menuPanel.setFocusable(true);
 		this.add(configPanel);
-		this.add(menuPanel);
-		menuPanel.setVisible(true);
-		configPanel.setVisible(false);
+		//this.add(menuPanel);
+		//menuPanel.setVisible(true);
+		configPanel.setVisible(true);
 		this.setVisible(true);
 		/* フルスクリーン
 			 GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().
