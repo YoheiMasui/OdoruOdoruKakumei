@@ -164,10 +164,11 @@ class Menu extends JFrame {
 
 		menuPanel.addKeyListener(new menuKeyPressed());
 		menuPanel.setFocusable(true);
-		this.add(configPanel);
-		//this.add(menuPanel);
-		//menuPanel.setVisible(true);
-		configPanel.setVisible(true);
+		//this.add(configPanel);
+		this.add(menuPanel);
+		//configPanel.setVisible(true);
+		menuPanel.setVisible(true);
+
 		this.setVisible(true);
 		/* フルスクリーン
 			 GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().
@@ -195,7 +196,8 @@ class Menu extends JFrame {
 				case MENU_INDEX.Network :
 					break;
 				case MENU_INDEX.Config :
-					getContentPane().removeAll();
+					//getContentPane().removeAll();
+					menuPanel.setVisible(false);
 					add(configPanel);
 					configPanel.setVisible(true);
 					break;
