@@ -82,10 +82,17 @@ class ScoreMaker extends JFrame {
 					String[] new_column = { Integer.toString(15 * lineNum++), "","","",""};
 					tableModel.addRow(new_column);
 				}
+
 				break;
 			case DeleteLine:
-				int selectedLine = table.getSelectedRows()[0];
-				tableModel.removeRow(selectedLine);
+				int selectedLine = table.getSelectedRow();
+				if (selectedLine >= 0) {					
+					tableModel.removeRow(selectedLine);
+					lineNum--;
+					for (int i = selectedLine; i < lineNum; i++){
+						tableModel.setValueAt(15 * i, i, 0);
+					}
+				}
 				break;
 			case Preview:
 				break;
