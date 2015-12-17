@@ -84,6 +84,8 @@ class ScoreMaker extends JFrame {
 				}
 				break;
 			case DeleteLine:
+				int selectedLine = table.getSelectedRows()[0];
+				tableModel.removeRow(selectedLine);
 				break;
 			case Preview:
 				break;
