@@ -1,3 +1,5 @@
+// 2015/12/17
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -67,6 +69,7 @@ class ScoreMaker extends JFrame {
 			this.type = type;
 		}
 		public void actionPerformed(ActionEvent e) {
+
 			switch(type) {
 			case Add1s:  
 				for (int i = 0; i < 4; i++) {
