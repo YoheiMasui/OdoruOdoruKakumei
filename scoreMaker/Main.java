@@ -13,28 +13,28 @@ class ScoreMaker extends JFrame {
 	final int DeleteLine = 3;
 	final int Preview = 4;
 	DefaultTableModel tableModel;
+
+
 	ScoreMaker() {
 		this.setTitle("Score Maker");
 		this.setSize(400, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		String[][] tabledata ={
-			{"0","","","",""},
-			{"15","","","",""},
-			{"30","","","",""},
-			{"45","","","",""}
-		};
-
 		String[] columnNames = {"f","left","down","up","right"};
-		tableModel = new DefaultTableModel(columnNames, 0);
-		table = new JTable(tableModel);
+		tableModel = new DefaultTableModel(columnNames, 0) {
+				public boolean isCellEditable(int row, int columen) {
+					return false;
+				}
+		};
+		JTable table = new JTable(tableModel);
 		//JTable table = new JTable(tabledata, columnNames);
-		/* table = new JTable(new DefaultTableModel(tabledata, columnNames) {
-			 public boolean isCellEditable(int row, int columen) {
-			 return false;
-			 }
-			 }); */
+		/*JTable table = new JTable(new DefaultTableModel(tabledata, columnNames) {
+				public boolean isCellEditable(int row, int columen) {
+					return false;
+				}
+				});*/
 
+		 
 		JScrollPane sp = new JScrollPane(table);
 		sp.setPreferredSize(new Dimension(380,600));
 		JPanel p = new JPanel();
@@ -63,6 +63,8 @@ class ScoreMaker extends JFrame {
 	
 		this.setVisible(true);	
 	}
+
+
 	class ButtonClickListener implements ActionListener {
 		int type;
 		ButtonClickListener(int type, JTable table) {
@@ -100,6 +102,8 @@ class ScoreMaker extends JFrame {
 		}
 	}
 }
+
+
 
 class Main {
 	public static void main(String argv[]) {
