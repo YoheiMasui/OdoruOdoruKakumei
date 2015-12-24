@@ -9,7 +9,7 @@ class Menu extends JFrame {
 	int color_red, color_green;
 	int v = 1;
 	JLabel titleLogo;
-	JPanel menuPanel, configPanel;
+	JPanel menuPanel, gamePanel, configPanel;
 	CursorObservable cursorObservable;
 	void Start() {
 		long error = 0;
@@ -48,6 +48,7 @@ class Menu extends JFrame {
 
 	Menu() {
 		menuPanel = new JPanel();
+		gamePanel = new Game();
 		configPanel = new ConfigPanel();
 		cursorObservable = new CursorObservable();
 		this.setSize(710, 620);
@@ -192,6 +193,9 @@ class Menu extends JFrame {
 				int idx = cursorObservable.getValue();
 				switch (idx) {
 				case MENU_INDEX.Single :
+					menuPanel.setVisible(false);
+					add(gamePanel);
+					gamePanel.setVisible(true);
 					break;
 				case MENU_INDEX.Network :
 					break;
