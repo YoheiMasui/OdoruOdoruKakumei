@@ -5,13 +5,14 @@ import java.util.*;
 import java.awt.event.*;
 
 
-class Menu extends JFrame {
+class Menu extends JFrame implements Runnable {
 	int color_red, color_green;
 	int v = 1;
 	JLabel titleLogo;
-	JPanel menuPanel, gamePanel, configPanel;
+	JPanel menuPanel, configPanel;
+	Game gamePanel;
 	CursorObservable cursorObservable;
-	void Start() {
+	public void run() {
 		long error = 0;
 		int fps = 60;
 		long idealSleep = (1000 << 16) / fps;
@@ -51,16 +52,15 @@ class Menu extends JFrame {
 		gamePanel = new Game();
 		configPanel = new ConfigPanel();
 		cursorObservable = new CursorObservable();
-		this.setSize(710, 620);
+		this.setSize(620, 480);
 		this.setTitle("Odoru Odoru Kakumei");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		/* ロゴ */
+
 		menuPanel.setBackground(Color.BLACK);
 		titleLogo = new JLabel("Odoru Odoru Kakumei",JLabel.CENTER);
 		titleLogo.setFont(new Font(MENU_INDEX.Font, Font.ITALIC, 52));
 		menuPanel.add(titleLogo, BorderLayout.NORTH);
-		/* メニューの要素 */
 		JPanel Selectable = new JPanel();
 		Selectable.setLayout(new BoxLayout(Selectable, BoxLayout.PAGE_AXIS));
 		//Selectable.setLayout(new FlowLayout());
@@ -79,7 +79,6 @@ class Menu extends JFrame {
 		cursorObservable.setValue(0);
 		Selectable.setOpaque(false);
 		menuPanel.add(Selectable, BorderLayout.CENTER);
-		/* コンフィグ */
 		{
 			configPanel.setBackground(Color.BLACK);
 			JPanel volumePanel = new JPanel();
@@ -161,7 +160,6 @@ class Menu extends JFrame {
 			keyConfigPanel.setOpaque(false);
 			configPanel.add(keyConfigPanel, BorderLayout.SOUTH);
 		}
-		/* 仕上げ */
 
 		menuPanel.addKeyListener(new menuKeyPressed());
 		menuPanel.setFocusable(true);
@@ -171,12 +169,11 @@ class Menu extends JFrame {
 		menuPanel.setVisible(true);
 
 		this.setVisible(true);
-		/* フルスクリーン
-			 GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().
-			 getDefaultScreenDevice();
-			 device.setFullScreenWindow(this);
+		/* full screen
+		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().
+			getDefaultScreenDevice();
+		device.setFullScreenWindow(this);
 		*/
-		Start();
 	}
 
 	class menuKeyPressed implements KeyListener {
@@ -193,9 +190,11 @@ class Menu extends JFrame {
 				int idx = cursorObservable.getValue();
 				switch (idx) {
 				case MENU_INDEX.Single :
+					setSize(800, 700);
 					menuPanel.setVisible(false);
 					add(gamePanel);
 					gamePanel.setVisible(true);
+					new Thread(gamePanel).start();
 					break;
 				case MENU_INDEX.Network :
 					break;
