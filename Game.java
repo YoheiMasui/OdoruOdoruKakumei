@@ -5,8 +5,9 @@ import java.util.*;
 class Game extends JPanel implements Runnable{
 	int frame_count;
 	JLabel frame_count_label;
-	
-	Game() {
+  Score score;
+  
+	Game(String fileName) {
 		this.setBackground(Color.BLACK);
 		this.setLayout(null);
 		JLabel up_arrow = new JLabel(new ImageIcon("./img/u.png"));
@@ -32,6 +33,7 @@ class Game extends JPanel implements Runnable{
 		this.add(debug_label);
 		this.add(frame_count_label);
 		frame_count = 0;
+    score = new Score(fileName);
 	}
 
 	public void run() {
@@ -57,9 +59,11 @@ class Game extends JPanel implements Runnable{
 	
 	void Update() {
 		frame_count++;
-		System.out.println(frame_count);
 		repaint();
 		/* disp */
 		frame_count_label.setText("frame_count: " + frame_count);
 	}
+
+  void Placement() {
+  }
 }
