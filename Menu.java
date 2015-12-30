@@ -5,14 +5,16 @@ import java.util.*;
 import java.awt.event.*;
 
 
-class Menu extends JFrame {
+class Menu extends JFrame implements Runnable {
 	int color_red, color_green;
 	int v = 1;
 	JLabel titleLogo;
 	JPanel menuPanel, configPanel;
 	Game gamePanel;
 	CursorObservable cursorObservable;
-	public void Start() {
+
+	public void run() {
+    /*
 		long error = 0;
 		int fps = 60;
 		long idealSleep = (1000 << 16) / fps;
@@ -30,7 +32,7 @@ class Menu extends JFrame {
 			} catch (Exception e) { }
 			newTime = System.currentTimeMillis() << 16;
 			error = newTime - oldTime - sleepTime;
-		}	
+      }	*/
 	}
 
 	void Update() {
@@ -174,8 +176,6 @@ class Menu extends JFrame {
 			getDefaultScreenDevice();
 		device.setFullScreenWindow(this);
 		*/
-
-		Start();
 	}
 
 	class menuKeyPressed implements KeyListener {
