@@ -2,18 +2,57 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
+class Position {
+  public int x, y;
+  Position(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
 class GameGUI extends JComponent {
   int frame_count;
   Dimension size;
   Image back;
   Graphics buffer;
+  Position[] left_arrows_pos, down_arrows_pos, up_arrows_pos, right_arrows_pos;
+  Score score;
+  int speed = 5;
+  final Image left_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/l.png");
+  final Image down_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/d.png");
+  final Image up_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/u.png");
+  final Image right_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/r.png");
+  final Position[][] allArrows_pos = {    left_arrows_pos, down_arrows_pos, up_arrows_pos, right_arrows_pos };
   
-  GameGUI() {
+  GameGUI(String fileName) {
     this.setPreferredSize(new Dimension(800, 700));
+    score = new Score(fileName);
+    left_arrows_pos = new Position[score.left_arrows.length];
+    down_arrows_pos = new Position[score.down_arrows.length];
+    up_arrows_pos = new Position[score.up_arrows.length];
+    right_arrows_pos = new Position[score.right_arrows.length];
+    for (int i = 0; i < left_arrows_pos.length; i++) {
+      left_arrows_pos[i] = new Position(20, 710 + speed * Integer.valueOf(score.left_arrows[i]));
+    }
+    for (int i = 0; i < down_arrows_pos.length; i++) {
+      down_arrows_pos[i] = new Position(20, 710 + speed * Integer.valueOf(score.down_arrows[i]));
+    }
+    for (int i = 0; i < up_arrows_pos.length; i++) {
+      up_arrows_pos[i] = new Position(20, 710 + speed * Integer.valueOf(score.up_arrows[i]));
+    }
+    for (int i = 0; i < down_arrows_pos.length; i++) {
+      down_arrows_pos[i] = new Position(20, 710 + speed * Integer.valueOf(score.up_arrows[i]));
+    }
   }
 
   void setValues(int frame_count) {
     this.frame_count = frame_count;
+ }
+
+  public void Update() {
+    for (int i = 0; i < left_arrows_pos.length; i++) {
+      left_arrows_pos[i].y -= speed;
+    }
   }
   
   public void paintComponent(Graphics g) {
@@ -24,14 +63,19 @@ class GameGUI extends JComponent {
     super.paintComponent(buffer);
     buffer.setColor(Color.BLACK);
     buffer.fillRect(0, 0, size.width, size.height);
-    
+    buffer.drawImage(left_arrow_img, 20, 10, this);
+    buffer.drawImage(down_arrow_img, 168, 10, this);
+    buffer.drawImage(up_arrow_img, 316, 10, this);
+    buffer.drawImage(right_arrow_img, 464, 10, this);
+    // DEBUG
+    // BEGIN //////////////////////////////////////////////////////
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
     buffer.setColor(Color.BLUE);
-    buffer.drawString("DEBUG", 600, 30);
+    buffer.drawString("DEBUG", 620, 30);
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 15)); 
     buffer.setColor(Color.WHITE);
-    buffer.drawString("frame_count: " + frame_count, 600, 60);
-
+    buffer.drawString("frame_count: " + frame_count, 620, 60);
+    // END ///////////////////////////////////////////////////////
     g.drawImage(back, 0, 0, this);
   }
 }
@@ -40,12 +84,11 @@ class Game extends JPanel implements Runnable {
 	int frame_count;
   int speed = 5;
 	JLabel frame_count_label;
-  Score score;
   GameGUI gGUI;
   
-	Game(String fileName, Graphics g) {
+	Game(String fileName) {
     this.setBackground(Color.BLACK);
-    gGUI = new GameGUI();
+    gGUI = new GameGUI(fileName);
     this.add(gGUI);
     this.setVisible(true);
 	}
@@ -63,7 +106,7 @@ class Game extends JPanel implements Runnable {
       repaint();
 			newTime = System.currentTimeMillis() << 16;
 			long sleepTime = idealSleep - (newTime - oldTime) - error;
-			//if (sleepTime < 0x20000) sleepTime = 0x2000;
+			if (sleepTime < 0x20000) sleepTime = 0x2000;
 			oldTime = newTime;
 			try {
 				Thread.sleep(sleepTime >> 16);
@@ -78,5 +121,6 @@ class Game extends JPanel implements Runnable {
   }
 	void Update() {
 		frame_count++;
+    gGUI.Update();
 	}
 }

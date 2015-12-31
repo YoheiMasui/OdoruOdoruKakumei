@@ -88,7 +88,7 @@ class Menu extends JFrame implements Runnable {
 		menuPanel.setVisible(true);
 
 		this.setVisible(true);
-    gamePanel = new Game("sample", this.getGraphics());
+    gamePanel = new Game("sample");
     this.getContentPane().add(gamePanel);
 		/* full screen
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().
