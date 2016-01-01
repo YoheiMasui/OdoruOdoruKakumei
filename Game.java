@@ -40,8 +40,8 @@ class GameGUI extends JComponent {
     for (int i = 0; i < up_arrows_pos.length; i++) {
       up_arrows_pos[i] = new Position(316, 10 + speed * Integer.valueOf(score.up_arrows[i]));
     }
-    for (int i = 0; i < down_arrows_pos.length; i++) {
-      down_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.up_arrows[i]));
+    for (int i = 0; i < right_arrows_pos.length; i++) {
+      right_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.up_arrows[i]));
     }
   }
 
@@ -52,6 +52,15 @@ class GameGUI extends JComponent {
   public void Update() {
     for (int i = 0; i < left_arrows_pos.length; i++) {
       left_arrows_pos[i].y -= speed;
+    }
+    for (int i = 0; i < down_arrows_pos.length; i++) {
+      down_arrows_pos[i].y -= speed;
+    }
+    for (int i = 0; i < up_arrows_pos.length; i++) {
+      up_arrows_pos[i].y -= speed;
+    }
+    for (int i = 0; i < right_arrows_pos.length; i++) {
+      right_arrows_pos[i].y -= speed;
     }
   }
   
@@ -70,6 +79,15 @@ class GameGUI extends JComponent {
 
     for (int i = 0; i < left_arrows_pos.length; i++) {
       buffer.drawImage(left_arrow_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+    }
+    for (int i = 0; i < down_arrows_pos.length; i++) {
+      buffer.drawImage(down_arrow_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
+    }
+    for (int i = 0; i < up_arrows_pos.length; i++) {
+      buffer.drawImage(up_arrow_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
+    }
+    for (int i = 0; i < right_arrows_pos.length; i++) {
+      buffer.drawImage(right_arrow_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
     }
     // DEBUG
     // BEGIN //////////////////////////////////////////////////////
