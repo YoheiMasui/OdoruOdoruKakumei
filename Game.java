@@ -57,16 +57,36 @@ class GameGUI extends JComponent {
 
   public void Update() {
     for (int i = 0; i < left_arrows_pos.length; i++) {
-      left_arrows_pos[i].y -= speed;
+      if (left_arrows_pos[i].y < 10 - 4 * speed) {
+        left_arrows_pos[i].enable = false;
+      }
+      if (left_arrows_pos[i].y > -200) {
+        left_arrows_pos[i].y -= speed;
+      }
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
-      down_arrows_pos[i].y -= speed;
+      if (down_arrows_pos[i].y < 10 - 4 * speed) {
+        down_arrows_pos[i].enable = false;
+      }
+      if (down_arrows_pos[i].y > -200) {
+        down_arrows_pos[i].y -= speed;
+      }
     }
     for (int i = 0; i < up_arrows_pos.length; i++) {
-      up_arrows_pos[i].y -= speed;
+      if (up_arrows_pos[i].y < 10 - 4 * speed) {
+        up_arrows_pos[i].enable = false;
+      }
+      if (up_arrows_pos[i].y > -200) {
+        up_arrows_pos[i].y -= speed;
+      }
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      right_arrows_pos[i].y -= speed;
+      if (right_arrows_pos[i].y < 10 - 4 * speed) {
+        right_arrows_pos[i].enable = false;
+      }
+      if (right_arrows_pos[i].y > -200) {
+        right_arrows_pos[i].y -= speed;
+      }
     }
   }
   
@@ -84,16 +104,32 @@ class GameGUI extends JComponent {
     buffer.drawImage(right_arrow_n_img, 464, 10, this);
 
     for (int i = 0; i < left_arrows_pos.length; i++) {
-      buffer.drawImage(left_arrow_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+      if (left_arrows_pos[i].enable) {
+        buffer.drawImage(left_arrow_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+      } else {
+        buffer.drawImage(left_arrow_n_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+      }
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
-      buffer.drawImage(down_arrow_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
+      if (down_arrows_pos[i].enable) {
+        buffer.drawImage(down_arrow_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
+      } else {
+        buffer.drawImage(down_arrow_n_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
+      }
     }
     for (int i = 0; i < up_arrows_pos.length; i++) {
-      buffer.drawImage(up_arrow_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
+      if (up_arrows_pos[i].enable) {
+        buffer.drawImage(up_arrow_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
+      } else {
+        buffer.drawImage(up_arrow_n_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
+      }
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      buffer.drawImage(right_arrow_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
+      if (right_arrows_pos[i].enable) {
+        buffer.drawImage(right_arrow_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
+      } else {
+        buffer.drawImage(right_arrow_n_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
+      }
     }
     // DEBUG
     // BEGIN //////////////////////////////////////////////////////
