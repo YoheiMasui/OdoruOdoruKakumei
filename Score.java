@@ -18,7 +18,6 @@ class Score {
       down_arrows = br.readLine().split(",", 0);
       up_arrows = br.readLine().split(",", 0);
       right_arrows = br.readLine().split(",", 0);
-      System.out.println(left_arrows[0]);
     } catch (FileNotFoundException e) {
       System.err.println("FILE NOT FOUND!!");
     } catch (IOException e) {
@@ -31,7 +30,5 @@ class Score {
         System.err.println("IOException!!");
       }
     }
-  }
-  
-  
+  }  
 }

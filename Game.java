@@ -3,8 +3,10 @@ import javax.swing.*;
 import java.util.*;
 
 class Position {
+  public boolean enable;
   public int x, y;
   Position(int x, int y) {
+    enable = true;
     this.x = x;
     this.y = y;
   }
@@ -19,9 +21,13 @@ class GameGUI extends JComponent {
   Score score;
   int speed = 5;
   final Image left_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/l.png");
+  final Image left_arrow_n_img = Toolkit.getDefaultToolkit().getImage("./img/l_n.png");
   final Image down_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/d.png");
+  final Image down_arrow_n_img = Toolkit.getDefaultToolkit().getImage("./img/d_n.png");
   final Image up_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/u.png");
+  final Image up_arrow_n_img = Toolkit.getDefaultToolkit().getImage("./img/u_n.png");
   final Image right_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/r.png");
+  final Image right_arrow_n_img = Toolkit.getDefaultToolkit().getImage("./img/r_n.png");
   final Position[][] allArrows_pos = {    left_arrows_pos, down_arrows_pos, up_arrows_pos, right_arrows_pos };
   
   GameGUI(String fileName) {
@@ -41,7 +47,7 @@ class GameGUI extends JComponent {
       up_arrows_pos[i] = new Position(316, 10 + speed * Integer.valueOf(score.up_arrows[i]));
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      right_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.up_arrows[i]));
+      right_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.right_arrows[i]));
     }
   }
 
@@ -72,10 +78,10 @@ class GameGUI extends JComponent {
     super.paintComponent(buffer);
     buffer.setColor(Color.BLACK);
     buffer.fillRect(0, 0, size.width, size.height);
-    buffer.drawImage(left_arrow_img, 20, 10, this);
-    buffer.drawImage(down_arrow_img, 168, 10, this);
-    buffer.drawImage(up_arrow_img, 316, 10, this);
-    buffer.drawImage(right_arrow_img, 464, 10, this);
+    buffer.drawImage(left_arrow_n_img, 20, 10, this);
+    buffer.drawImage(down_arrow_n_img, 168, 10, this);
+    buffer.drawImage(up_arrow_n_img, 316, 10, this);
+    buffer.drawImage(right_arrow_n_img, 464, 10, this);
 
     for (int i = 0; i < left_arrows_pos.length; i++) {
       buffer.drawImage(left_arrow_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
