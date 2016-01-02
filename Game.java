@@ -112,9 +112,23 @@ class GameGUI extends JComponent {
     case 0:
       left_pressed = frame_count;
       for (int i = 0; i < left_arrows_pos.length; i++) {
-        if (Math.abs(left_arrows_pos[i].y - 10) <= speed * 3) {
-          System.out.println("GOOD");
+        int diff = Math.abs(left_arrows_pos[i].y - 10);
+        if (diff <= speed) {
+          System.out.println("MARVELOUS!!!");
           left_arrows_pos[i].visible = false;
+          break;
+        } else if (diff <= speed * 3) {
+          System.out.println("PERFECT!!");
+          left_arrows_pos[i].visible = false;
+          break;
+        } else if (diff <= speed * 5) {
+          System.out.println("GREAT!");
+          left_arrows_pos[i].visible = false;
+          break;
+        } else if (diff <= speed * 7) {
+          System.out.println("GOOD!");
+          left_arrows_pos[i].visible = false;
+          break;
         }
       }
       break;
