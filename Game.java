@@ -29,6 +29,8 @@ class GameGUI extends JComponent {
   final Image right_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/r.png");
   final Image right_arrow_n_img = Toolkit.getDefaultToolkit().getImage("./img/r_n.png");
   final Position[][] allArrows_pos = {    left_arrows_pos, down_arrows_pos, up_arrows_pos, right_arrows_pos };
+
+  int left_miss, down_miss, up_miss, right_miss;
   
   GameGUI(String fileName) {
     this.setPreferredSize(new Dimension(800, 700));
@@ -49,6 +51,8 @@ class GameGUI extends JComponent {
     for (int i = 0; i < right_arrows_pos.length; i++) {
       right_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.right_arrows[i]));
     }
+
+    left_miss = down_miss = up_miss = right_miss = 0;
   }
 
   void setValues(int frame_count) {
@@ -56,33 +60,42 @@ class GameGUI extends JComponent {
  }
 
   public void Update() {
+    if (left_miss > 0) left_miss --;
+    if (down_miss > 0) down_miss --;
+    if (up_miss > 0) up_miss --;
+    if (right_miss > 0) right_miss --;
+    
     for (int i = 0; i < left_arrows_pos.length; i++) {
-      if (left_arrows_pos[i].y < 10 - 4 * speed) {
+      if (left_arrows_pos[i].enable && left_arrows_pos[i].y < 10 - 4 * speed) {
         left_arrows_pos[i].enable = false;
+        left_miss = 15;
       }
       if (left_arrows_pos[i].y > -200) {
         left_arrows_pos[i].y -= speed;
       }
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
-      if (down_arrows_pos[i].y < 10 - 4 * speed) {
+      if (down_arrows_pos[i].enable && down_arrows_pos[i].y < 10 - 4 * speed) {
         down_arrows_pos[i].enable = false;
+        down_miss = 15;
       }
       if (down_arrows_pos[i].y > -200) {
         down_arrows_pos[i].y -= speed;
       }
     }
     for (int i = 0; i < up_arrows_pos.length; i++) {
-      if (up_arrows_pos[i].y < 10 - 4 * speed) {
+      if (up_arrows_pos[i].enable && up_arrows_pos[i].y < 10 - 4 * speed) {
         up_arrows_pos[i].enable = false;
+        up_miss = 15;
       }
       if (up_arrows_pos[i].y > -200) {
         up_arrows_pos[i].y -= speed;
       }
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      if (right_arrows_pos[i].y < 10 - 4 * speed) {
+      if (right_arrows_pos[i].enable && right_arrows_pos[i].y < 10 - 4 * speed) {
         right_arrows_pos[i].enable = false;
+        right_miss = 15;
       }
       if (right_arrows_pos[i].y > -200) {
         right_arrows_pos[i].y -= speed;
@@ -130,6 +143,21 @@ class GameGUI extends JComponent {
       } else {
         buffer.drawImage(right_arrow_n_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
       }
+    }
+
+    buffer.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 
+    buffer.setColor(Color.RED);
+    if (left_miss > 0) {
+      buffer.drawString("Miss...", 20, 120);
+    }
+    if (down_miss > 0) {
+      buffer.drawString("Miss...", 168, 120);
+    }
+    if (up_miss > 0) {
+      buffer.drawString("Miss...", 316, 120);
+    }
+    if (right_miss > 0) {
+      buffer.drawString("Miss...", 464, 120);
     }
     // DEBUG
     // BEGIN //////////////////////////////////////////////////////
