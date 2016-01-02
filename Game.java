@@ -1,12 +1,15 @@
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
+import java.awt.event.*;
 
 class Position {
   public boolean enable;
+  public boolean visible;
   public int x, y;
   Position(int x, int y) {
-    enable = true;
+    this.enable = true;
+    this.visible = true;
     this.x = x;
     this.y = y;
   }
@@ -31,6 +34,7 @@ class GameGUI extends JComponent {
   final Position[][] allArrows_pos = {    left_arrows_pos, down_arrows_pos, up_arrows_pos, right_arrows_pos };
 
   int left_miss, down_miss, up_miss, right_miss;
+  public int left_pressed, down_pressed, up_pressed, right_pressed;
   
   GameGUI(String fileName) {
     this.setPreferredSize(new Dimension(800, 700));
@@ -66,7 +70,7 @@ class GameGUI extends JComponent {
     if (right_miss > 0) right_miss --;
     
     for (int i = 0; i < left_arrows_pos.length; i++) {
-      if (left_arrows_pos[i].enable && left_arrows_pos[i].y < 10 - 4 * speed) {
+      if (left_arrows_pos[i].visible && left_arrows_pos[i].enable && left_arrows_pos[i].y < 10 - 4 * speed) {
         left_arrows_pos[i].enable = false;
         left_miss = 15;
       }
@@ -75,7 +79,7 @@ class GameGUI extends JComponent {
       }
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
-      if (down_arrows_pos[i].enable && down_arrows_pos[i].y < 10 - 4 * speed) {
+      if (down_arrows_pos[i].visible && down_arrows_pos[i].enable && down_arrows_pos[i].y < 10 - 4 * speed) {
         down_arrows_pos[i].enable = false;
         down_miss = 15;
       }
@@ -84,7 +88,7 @@ class GameGUI extends JComponent {
       }
     }
     for (int i = 0; i < up_arrows_pos.length; i++) {
-      if (up_arrows_pos[i].enable && up_arrows_pos[i].y < 10 - 4 * speed) {
+      if (up_arrows_pos[i].visible && up_arrows_pos[i].enable && up_arrows_pos[i].y < 10 - 4 * speed) {
         up_arrows_pos[i].enable = false;
         up_miss = 15;
       }
@@ -93,13 +97,27 @@ class GameGUI extends JComponent {
       }
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      if (right_arrows_pos[i].enable && right_arrows_pos[i].y < 10 - 4 * speed) {
+      if (right_arrows_pos[i].visible && right_arrows_pos[i].enable && right_arrows_pos[i].y < 10 - 4 * speed) {
         right_arrows_pos[i].enable = false;
         right_miss = 15;
       }
       if (right_arrows_pos[i].y > -200) {
         right_arrows_pos[i].y -= speed;
       }
+    }
+  }
+
+  public void Pressed(int key) {
+    switch (key) {
+    case 0:
+      left_pressed = frame_count;
+      for (int i = 0; i < left_arrows_pos.length; i++) {
+        if (Math.abs(left_arrows_pos[i].y - 10) <= speed * 3) {
+          System.out.println("GOOD");
+          left_arrows_pos[i].visible = false;
+        }
+      }
+      break;
     }
   }
   
@@ -117,10 +135,12 @@ class GameGUI extends JComponent {
     buffer.drawImage(right_arrow_n_img, 464, 10, this);
 
     for (int i = 0; i < left_arrows_pos.length; i++) {
-      if (left_arrows_pos[i].enable) {
-        buffer.drawImage(left_arrow_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
-      } else {
-        buffer.drawImage(left_arrow_n_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+      if (left_arrows_pos[i].visible) {
+        if (left_arrows_pos[i].enable) {
+          buffer.drawImage(left_arrow_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+        } else {
+          buffer.drawImage(left_arrow_n_img, left_arrows_pos[i].x, left_arrows_pos[i].y, this);
+        }
       }
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
@@ -172,7 +192,7 @@ class GameGUI extends JComponent {
   }
 }
 
-class Game extends JPanel implements Runnable {
+class Game extends JPanel implements Runnable, KeyListener {
 	int frame_count;
   int speed = 5;
 	JLabel frame_count_label;
@@ -183,6 +203,8 @@ class Game extends JPanel implements Runnable {
     gGUI = new GameGUI(fileName);
     this.add(gGUI);
     this.setVisible(true);
+    this.addKeyListener(this);
+    this.setFocusable(true);
 	}
 
 	public void run() {
@@ -211,8 +233,27 @@ class Game extends JPanel implements Runnable {
   void setValues() {
     gGUI.setValues(frame_count);
   }
+  
 	void Update() {
 		frame_count++;
     gGUI.Update();
 	}
+
+  public void keyPressed(KeyEvent e) {
+    int keyCode = e.getKeyCode();
+    switch (keyCode) {
+    case KeyEvent.VK_SHIFT :
+      System.out.println("SHIFT PRESSED");
+      break;
+    case KeyEvent.VK_LEFT :
+      gGUI.Pressed(0);
+      break;
+    }    
+  }
+
+  public void keyReleased(KeyEvent e){
+  }
+
+  public void keyTyped(KeyEvent e) {
+  }
 }
