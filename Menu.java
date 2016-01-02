@@ -88,8 +88,6 @@ class Menu extends JFrame implements Runnable {
 		menuPanel.setVisible(true);
 
 		this.setVisible(true);
-    gamePanel = new Game("sample");
-    this.getContentPane().add(gamePanel);
 		/* full screen
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().
 			getDefaultScreenDevice();
@@ -111,6 +109,8 @@ class Menu extends JFrame implements Runnable {
 				int idx = cursorObservable.getValue();
 				switch (idx) {
 				case MENU_INDEX.Single :
+          gamePanel = new Game("sample");
+          getContentPane().add(gamePanel);
 					setSize(800, 700);
 					menuPanel.setVisible(false);
 					add(gamePanel);

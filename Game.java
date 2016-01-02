@@ -34,6 +34,11 @@ class GameGUI extends JComponent {
   final Position[][] allArrows_pos = {    left_arrows_pos, down_arrows_pos, up_arrows_pos, right_arrows_pos };
 
   int left_miss, down_miss, up_miss, right_miss;
+  int left_good, down_good, up_good, right_good;
+  int left_great, down_great, up_great, right_great;
+  int left_perfect, down_perfect, up_perfect, right_perfect;
+  int left_marvelous, down_marvelous, up_marvelous, right_marvelous;
+  
   public int left_pressed, down_pressed, up_pressed, right_pressed;
   
   GameGUI(String fileName) {
@@ -68,11 +73,27 @@ class GameGUI extends JComponent {
     if (down_miss > 0) down_miss --;
     if (up_miss > 0) up_miss --;
     if (right_miss > 0) right_miss --;
+    if (left_good > 0) left_good --;
+    if (down_good > 0) down_good --;
+    if (up_good > 0) up_good --;
+    if (right_good > 0) right_good --;
+    if (left_great > 0) left_great --;
+    if (down_great > 0) down_great --;
+    if (up_great > 0) up_great --;
+    if (right_great > 0) right_great --;
+    if (left_perfect > 0) left_perfect --;
+    if (down_perfect > 0) down_perfect --;
+    if (up_perfect > 0) up_perfect --;
+    if (right_perfect > 0) right_perfect --;
+    if (left_marvelous > 0) left_marvelous --;
+    if (down_marvelous > 0) down_marvelous --;
+    if (up_marvelous > 0) up_marvelous --;
+    if (right_marvelous > 0) right_marvelous --;
     
     for (int i = 0; i < left_arrows_pos.length; i++) {
       if (left_arrows_pos[i].visible && left_arrows_pos[i].enable && left_arrows_pos[i].y < 10 - 4 * speed) {
         left_arrows_pos[i].enable = false;
-        left_miss = 15;
+        left_miss = 10;
       }
       if (left_arrows_pos[i].y > -200) {
         left_arrows_pos[i].y -= speed;
@@ -81,7 +102,7 @@ class GameGUI extends JComponent {
     for (int i = 0; i < down_arrows_pos.length; i++) {
       if (down_arrows_pos[i].visible && down_arrows_pos[i].enable && down_arrows_pos[i].y < 10 - 4 * speed) {
         down_arrows_pos[i].enable = false;
-        down_miss = 15;
+        down_miss = 10;
       }
       if (down_arrows_pos[i].y > -200) {
         down_arrows_pos[i].y -= speed;
@@ -90,7 +111,7 @@ class GameGUI extends JComponent {
     for (int i = 0; i < up_arrows_pos.length; i++) {
       if (up_arrows_pos[i].visible && up_arrows_pos[i].enable && up_arrows_pos[i].y < 10 - 4 * speed) {
         up_arrows_pos[i].enable = false;
-        up_miss = 15;
+        up_miss = 10;
       }
       if (up_arrows_pos[i].y > -200) {
         up_arrows_pos[i].y -= speed;
@@ -99,7 +120,7 @@ class GameGUI extends JComponent {
     for (int i = 0; i < right_arrows_pos.length; i++) {
       if (right_arrows_pos[i].visible && right_arrows_pos[i].enable && right_arrows_pos[i].y < 10 - 4 * speed) {
         right_arrows_pos[i].enable = false;
-        right_miss = 15;
+        right_miss = 10;
       }
       if (right_arrows_pos[i].y > -200) {
         right_arrows_pos[i].y -= speed;
@@ -112,23 +133,116 @@ class GameGUI extends JComponent {
     case 0:
       left_pressed = frame_count;
       for (int i = 0; i < left_arrows_pos.length; i++) {
-        int diff = Math.abs(left_arrows_pos[i].y - 10);
-        if (diff <= speed) {
-          System.out.println("MARVELOUS!!!");
-          left_arrows_pos[i].visible = false;
-          break;
-        } else if (diff <= speed * 3) {
-          System.out.println("PERFECT!!");
-          left_arrows_pos[i].visible = false;
-          break;
-        } else if (diff <= speed * 5) {
-          System.out.println("GREAT!");
-          left_arrows_pos[i].visible = false;
-          break;
-        } else if (diff <= speed * 7) {
-          System.out.println("GOOD!");
-          left_arrows_pos[i].visible = false;
-          break;
+        if (left_arrows_pos[i].visible && left_arrows_pos[i].enable) {
+          int diff = Math.abs(left_arrows_pos[i].y - 10);
+          if (diff <= speed) {
+            System.out.println("MARVELOUS!!!");
+            left_marvelous = 10;
+            left_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 3) {
+            System.out.println("PERFECT!!");
+            left_perfect = 10;
+            left_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 5) {
+            System.out.println("GREAT!");
+            left_great = 10;
+            left_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 7) {
+            System.out.println("GOOD!");
+            left_good = 10;
+            left_arrows_pos[i].visible = false;
+            break;
+          }
+        }
+      }
+      break;
+    case 1:
+      down_pressed = frame_count;
+      for (int i = 0; i < down_arrows_pos.length; i++) {
+        if (down_arrows_pos[i].visible && down_arrows_pos[i].enable) {
+          int diff = Math.abs(down_arrows_pos[i].y - 10);
+          if (diff <= speed) {
+            System.out.println("MARVELOUS!!!");
+            down_marvelous = 10;
+            down_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 3) {
+            System.out.println("PERFECT!!");
+            down_perfect = 10;
+            down_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 5) {
+            System.out.println("GREAT!");
+            down_great = 10;
+            down_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 7) {
+            System.out.println("GOOD!");
+            down_good = 10;
+            down_arrows_pos[i].visible = false;
+            break;
+          }
+        }
+      }
+      break;
+    case 2:
+      up_pressed = frame_count;
+      for (int i = 0; i < up_arrows_pos.length; i++) {
+        if (up_arrows_pos[i].visible && up_arrows_pos[i].enable) {
+          int diff = Math.abs(up_arrows_pos[i].y - 10);
+          if (diff <= speed) {
+            System.out.println("MARVELOUS!!!");
+            up_marvelous = 10;
+            up_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 3) {
+            System.out.println("PERFECT!!");
+            up_perfect = 10;
+            up_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 5) {
+            System.out.println("GREAT!");
+            up_great = 10;
+            up_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 7) {
+            System.out.println("GOOD!");
+            up_good = 10;
+            up_arrows_pos[i].visible = false;
+            break;
+          }
+        }
+      }
+      break;
+    case 3:
+      right_pressed = frame_count;
+      for (int i = 0; i < right_arrows_pos.length; i++) {
+        if (right_arrows_pos[i].visible && right_arrows_pos[i].enable) {
+          int diff = Math.abs(right_arrows_pos[i].y - 10);
+          if (diff <= speed) {
+            System.out.println("MARVELOUS!!!");
+            right_marvelous = 10;
+            right_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 3) {
+            System.out.println("PERFECT!!");
+            right_perfect = 10;
+            right_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 5) {
+            System.out.println("GREAT!");
+            right_great = 10;
+            right_arrows_pos[i].visible = false;
+            break;
+          } else if (diff <= speed * 7) {
+            System.out.println("GOOD!");
+            right_good = 10;
+            right_arrows_pos[i].visible = false;
+            break;
+          }
         }
       }
       break;
@@ -181,18 +295,30 @@ class GameGUI extends JComponent {
 
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 
     buffer.setColor(Color.RED);
-    if (left_miss > 0) {
-      buffer.drawString("Miss...", 20, 120);
-    }
-    if (down_miss > 0) {
-      buffer.drawString("Miss...", 168, 120);
-    }
-    if (up_miss > 0) {
-      buffer.drawString("Miss...", 316, 120);
-    }
-    if (right_miss > 0) {
-      buffer.drawString("Miss...", 464, 120);
-    }
+    if (left_miss > 0) buffer.drawString("Miss...", 20, 120);
+    if (down_miss > 0) buffer.drawString("Miss...", 168, 120);
+    if (up_miss > 0) buffer.drawString("Miss...", 316, 120);
+    if (right_miss > 0) buffer.drawString("Miss...", 464, 120);
+    buffer.setColor(Color.CYAN);
+    if (left_good > 0) buffer.drawString("GOOD", 20, 120);
+    if (down_good > 0) buffer.drawString("GOOD", 168, 120);
+    if (up_good > 0) buffer.drawString("GOOD", 316, 120);
+    if (right_good > 0) buffer.drawString("GOOD", 464, 120);
+    buffer.setColor(Color.GREEN);
+    if (left_great > 0) buffer.drawString("GREAT!", 20, 120);
+    if (down_great > 0) buffer.drawString("GREAT!", 168, 120);
+    if (up_great > 0) buffer.drawString("GREAT!", 316, 120);
+    if (right_great > 0) buffer.drawString("GREAT!", 464, 120);
+    buffer.setColor(Color.YELLOW);
+    if (left_perfect > 0) buffer.drawString("PERFECT!!", 20, 120);
+    if (down_perfect > 0) buffer.drawString("PERFECT!!", 168, 120);
+    if (up_perfect > 0) buffer.drawString("PERFECT!!", 316, 120);
+    if (right_perfect > 0) buffer.drawString("PERFECT!!", 464, 120);
+    buffer.setColor(Color.ORANGE);
+    if (left_marvelous > 0) buffer.drawString("MARVELOUS!!", 20, 120);
+    if (down_marvelous > 0) buffer.drawString("MARVELOUS!!", 168, 120);
+    if (up_marvelous > 0) buffer.drawString("MARVELOUS!!", 316, 120);
+    if (right_marvelous > 0) buffer.drawString("MARVELOUS!!", 464, 120);
     // DEBUG
     // BEGIN //////////////////////////////////////////////////////
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
@@ -262,7 +388,16 @@ class Game extends JPanel implements Runnable, KeyListener {
     case KeyEvent.VK_LEFT :
       gGUI.Pressed(0);
       break;
-    }    
+    case KeyEvent.VK_DOWN :
+      gGUI.Pressed(1);
+      break;
+    case KeyEvent.VK_UP :
+      gGUI.Pressed(2);
+      break;
+    case KeyEvent.VK_RIGHT :
+      gGUI.Pressed(3);
+      break;
+    }
   }
 
   public void keyReleased(KeyEvent e){
