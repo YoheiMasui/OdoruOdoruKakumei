@@ -17,6 +17,20 @@ class ScoreMaker extends JFrame {
 		this.setTitle("Score Maker");
 		this.setSize(400, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JMenuBar menubar = new JMenuBar();
+
+		JMenu menu1 = new JMenu("File");
+
+		menubar.add(menu1);
+
+		JMenuItem menuitem1 = new JMenuItem("open");
+		JMenuItem menuitem2 = new JMenuItem("save as");
+
+		menu1.add(menuitem1);
+		menu1.add(menuitem2);
+
+		setJMenuBar(menubar);
 		
 		String[][] tabledata ={
 			{"0","","","",""},
