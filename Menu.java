@@ -51,7 +51,7 @@ class Menu extends JFrame {
 		gamePanel = new Game();
 		configPanel = new ConfigPanel();
 		cursorObservable = new CursorObservable();
-		this.setSize(710, 620);
+		this.setSize(600, 900);
 		this.setTitle("Odoru Odoru Kakumei");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
