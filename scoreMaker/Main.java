@@ -96,6 +96,19 @@ class ScoreMaker extends JFrame {
 			int selected = filechooser.showSaveDialog(f);
 			if (selected == JFileChooser.APPROVE_OPTION){
 				File file = filechooser.getSelectedFile();
+			
+				try{
+					if (file.createNewFile()){
+						FileWriter filewriter = new FileWriter(file);
+						System.out.println("ファイルの作成に成功しました");
+						filewriter.write("test");
+						filewriter.close();
+					}else{
+						System.out.println("ファイルの作成に失敗しました");
+					}
+				}catch(IOException ex){
+					System.out.println(e);
+				}
 			}
 		}
 	}
