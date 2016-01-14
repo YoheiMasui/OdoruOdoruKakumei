@@ -22,6 +22,20 @@ class ScoreMaker extends JFrame {
 		this.setTitle("Score Maker");
 		this.setSize(400, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JMenuBar menubar = new JMenuBar();
+
+		JMenu menu1 = new JMenu("File");
+
+		menubar.add(menu1);
+
+		JMenuItem menuitem1 = new JMenuItem("open");
+		JMenuItem menuitem2 = new JMenuItem("save as");
+
+		menu1.add(menuitem1);
+		menu1.add(menuitem2);
+
+		setJMenuBar(menubar);
 		
 		String[] columnNames = {"f","left","down","up","right"};
 		tableModel = new DefaultTableModel(columnNames, 0) {
@@ -74,6 +88,7 @@ class ScoreMaker extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			int r = table.getSelectedRow();
 			int c = table.getSelectedColumn();
+			if (c == 0) return;
 			if (prev_r == prev_c) {
 				status.get(r)[c]++;
 				status.get(r)[c] %= 3;
