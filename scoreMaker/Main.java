@@ -6,6 +6,7 @@ import javax.swing.table.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.event.*;
+import java.io.*;
 
 class ScoreMaker extends JFrame {
 	int lineNum = 0;
@@ -36,6 +37,8 @@ class ScoreMaker extends JFrame {
 		menu1.add(menuitem2);
 
 		setJMenuBar(menubar);
+		
+		menuitem2.addActionListener(new itemClicked(this));
 		
 		String[] columnNames = {"f","left","down","up","right"};
 		tableModel = new DefaultTableModel(columnNames, 0) {
@@ -81,7 +84,22 @@ class ScoreMaker extends JFrame {
 	
 		this.setVisible(true);	
 	}
+	class itemClicked implements ActionListener {
+		JFrame f;
+		itemClicked(JFrame f) {
+			this.f = f;
+		}
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser filechooser = new JFileChooser();
+			filechooser.setDialogTitle("名前を付けて保存");
 
+			int selected = filechooser.showSaveDialog(f);
+			if (selected == JFileChooser.APPROVE_OPTION){
+				File file = filechooser.getSelectedFile();
+			}
+		}
+	}
+	
 	class tableClicked implements MouseListener {
 		int prev_r = -1;
 		int prev_c = -1;
