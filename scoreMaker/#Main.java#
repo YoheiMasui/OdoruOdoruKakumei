@@ -101,17 +101,6 @@ class ScoreMaker extends JFrame {
 					if (file.createNewFile()){
 						FileWriter filewriter = new FileWriter(file);
 						System.out.println("ファイルの作成に成功しました");
-						// while(int now_r != lineNum || int now_c != 4){
-						// 	if(table.getValueat(now_r,now_c) == 1){
-						// 		if(now_r == 1){
-						// 			left.add(table.getValueat(0,now_c),);
-						// 			left.add()
-													 
-						// 		}
-						// 	}
-						  
-							
-						// }
 						for (int i = 1; i <= 4; i++) {
 							for (int j = 0; j < lineNum; j++) {
 								if (status.get(j)[i] > 0) {
