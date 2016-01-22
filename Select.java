@@ -15,11 +15,9 @@ class MusicData {
 }
 
 class Select extends JPanel implements Runnable {
-	SelectGUI sGUI;
 	ArrayList<MusicData> musics;
 	Select() {
 		this.setBackground(Color.BLACK);
-		sGUI = new SelectGUI();
 		this.setVisible(true);
 		this.setFocusable(true);
 		musics = new ArrayList<MusicData>();
