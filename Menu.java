@@ -10,7 +10,7 @@ class Menu extends JFrame implements Runnable {
 	int v = 1;
 	JLabel titleLogo;
 	JPanel menuPanel, configPanel;
-	Game gamePanel;
+	Select selectPanel;
 	CursorObservable cursorObservable;
 
 	public void run() {
@@ -109,13 +109,13 @@ class Menu extends JFrame implements Runnable {
 				int idx = cursorObservable.getValue();
 				switch (idx) {
 				case MENU_INDEX.Single :
-          gamePanel = new Game("sample");
-          getContentPane().add(gamePanel);
-					setSize(800, 700);
+          selectPanel = new Select();
+					//setSize(800, 700);
 					menuPanel.setVisible(false);
-					add(gamePanel);
-					gamePanel.setVisible(true);
-					new Thread(gamePanel).start();
+					getContentPane().add(selectPanel);
+					//add(selectPanel);
+					selectPanel.setVisible(true);
+					new Thread(selectPanel).start();
 					break;
 				case MENU_INDEX.Network :
 					break;
