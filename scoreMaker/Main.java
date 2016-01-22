@@ -4,37 +4,41 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.event.*;
+import java.util.*;
+import javax.swing.event.*;
 
 class ScoreMaker extends JFrame {
 	int lineNum = 0;
-	JTable table;
+	JTable table = new JTable();
 	final int Add1s = 1;
 	final int Add10s = 2;
 	final int DeleteLine = 3;
 	final int Preview = 4;
+	ArrayList<int[]> status = new ArrayList<int[]>();
 	DefaultTableModel tableModel;
+
+
 	ScoreMaker() {
 		this.setTitle("Score Maker");
 		this.setSize(400, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		String[][] tabledata ={
-			{"0","","","",""},
-			{"15","","","",""},
-			{"30","","","",""},
-			{"45","","","",""}
-		};
-
 		String[] columnNames = {"f","left","down","up","right"};
-		tableModel = new DefaultTableModel(columnNames, 0);
+		tableModel = new DefaultTableModel(columnNames, 0) {
+				public boolean isCellEditable(int row, int columen) {
+					return false;
+				}
+			};
 		table = new JTable(tableModel);
 		//JTable table = new JTable(tabledata, columnNames);
-		/* table = new JTable(new DefaultTableModel(tabledata, columnNames) {
-			 public boolean isCellEditable(int row, int columen) {
-			 return false;
-			 }
-			 }); */
+		/*JTable table = new JTable(new DefaultTableModel(tabledata, columnNames) {
+			public boolean isCellEditable(int row, int columen) {
+			return false;
+			}
+			});*/
 
+	
+		table.addMouseListener(new tableClicked());
 		JScrollPane sp = new JScrollPane(table);
 		sp.setPreferredSize(new Dimension(380,600));
 		JPanel p = new JPanel();
@@ -63,6 +67,26 @@ class ScoreMaker extends JFrame {
 	
 		this.setVisible(true);	
 	}
+
+	class tableClicked implements MouseListener {
+		int prev_r = -1;
+		int prev_c = -1;
+		public void mouseClicked(MouseEvent e) {
+			int r = table.getSelectedRow();
+			int c = table.getSelectedColumn();
+			if (prev_r == prev_c) {
+				status.get(r)[c]++;
+				status.get(r)[c] %= 3;
+				table.setValueAt(status.get(r)[c] == 0 ? "" : status.get(r)[c], r, c);
+			}
+		}
+		public void mouseEntered(MouseEvent e) { }
+		public void mouseExited(MouseEvent e) { }
+		public void mousePressed(MouseEvent e) { }
+		public void mouseReleased(MouseEvent e) { }
+	}
+		 
+
 	class ButtonClickListener implements ActionListener {
 		int type;
 		ButtonClickListener(int type, JTable table) {
@@ -75,12 +99,15 @@ class ScoreMaker extends JFrame {
 				for (int i = 0; i < 4; i++) {
 					String[] new_column = { Integer.toString(15 * lineNum++), "","","",""};
 					tableModel.addRow(new_column);
+					status.add(new int[5]);
+					
 				}
 				break;
 			case Add10s:
 				for (int i = 0; i < 40; i++) {
 					String[] new_column = { Integer.toString(15 * lineNum++), "","","",""};
 					tableModel.addRow(new_column);
+					status.add(new int[5]);
 				}
 
 				break;
@@ -101,8 +128,11 @@ class ScoreMaker extends JFrame {
 	}
 }
 
+
+
 class Main {
 	public static void main(String argv[]) {
 		new ScoreMaker();
 	}
+	
 }
