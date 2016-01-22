@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
+import javax.sound.sampled.*;
+import java.io.*;
 
 class Position {
   public boolean enable;
@@ -62,6 +64,23 @@ class GameGUI extends JComponent {
     }
 
     left_miss = down_miss = up_miss = right_miss = 0;
+
+		// play mp3
+		System.out.println("DEBUG__X : " + fileName);
+		try{
+			File mp3File = new File("./music/" + fileName + "/" + fileName + ".wav");
+			
+			AudioFormat format = AudioSystem.getAudioFileFormat(mp3File).getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			Clip line = (Clip)AudioSystem.getLine(info);
+			line.open(AudioSystem.getAudioInputStream(mp3File));
+			line.start();
+			System.out.println("MP3 Started.");
+			
+		} catch(Exception e) { 
+			e.printStackTrace();
+		}
+				
   }
 
   void setValues(int frame_count) {
@@ -402,7 +421,6 @@ class Game extends JPanel implements Runnable, KeyListener {
 
   public void keyReleased(KeyEvent e){
   }
-
   public void keyTyped(KeyEvent e) {
   }
 }
