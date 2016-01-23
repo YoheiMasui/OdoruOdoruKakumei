@@ -11,6 +11,7 @@ class Menu extends JFrame implements Runnable {
 	JLabel titleLogo;
 	JPanel menuPanel, configPanel;
 	Select selectPanel;
+	Game gamePanel;
 	CursorObservable cursorObservable;
 
 	public void run() {
@@ -113,9 +114,13 @@ class Menu extends JFrame implements Runnable {
 					//setSize(800, 700);
 					menuPanel.setVisible(false);
 					getContentPane().add(selectPanel);
-					//add(selectPanel);
+					add(selectPanel);
 					selectPanel.setVisible(true);
-					new Thread(selectPanel).start();
+						//setSize(800, 700);
+						//gamePanel = new Game(DataServer.getSelectedFileName());
+						//getContentPane().add(gamePanel);
+						//gamePanel.setVisible(true);
+																
 					break;
 				case MENU_INDEX.Network :
 					break;

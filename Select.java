@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
@@ -14,18 +15,25 @@ class MusicData {
 	}
 }
 
-class Select extends JPanel implements Runnable {
+class Select extends JPanel implements Runnable, KeyListener {
 	ArrayList<MusicData> musics;
+	int pointer;
+	int file_num;
+	boolean flag;
+	JFrame mainFrame;
 	Select() {
 		this.setBackground(Color.BLACK);
 		this.setVisible(true);
 		this.setFocusable(true);
+		this.addKeyListener(this);
+		System.out.println(mainFrame);
 		musics = new ArrayList<MusicData>();
-
+		flag = true;
 		File dir = new File("./music");
 		File[] files = dir.listFiles();
+		file_num = files.length;
 		try {
-			for (int i = 0; i < files.length; i++) {
+			for (int i = 0; i < file_num; i++) {
 				String name = files[i].getName();
 				BufferedReader br = new BufferedReader(new FileReader(files[i] + "/" + name + ".dat"));
 				String title = br.readLine();
@@ -35,27 +43,11 @@ class Select extends JPanel implements Runnable {
 			}
 		} catch (IOException e) { }
 		System.out.println(musics.size());
+		pointer = 0;
 	}
 	
 	public void run() {
-	  long error = 0;
-		int fps = 60;
-		long idealSleep = (1000 << 16) / fps;
-		long oldTime;
-		long newTime = System.currentTimeMillis() << 16;
-		while (true) {
-			oldTime = newTime;
-      repaint();
-			newTime = System.currentTimeMillis() << 16;
-			long sleepTime = idealSleep - (newTime - oldTime) - error;
-			if (sleepTime < 0x20000) sleepTime = 0x2000;
-			oldTime = newTime;
-			try {
-				Thread.sleep(sleepTime >> 16);
-			} catch (InterruptedException e) { }
-			newTime = System.currentTimeMillis() << 16;
-			error = newTime - oldTime - sleepTime;
-    }
+	  repaint();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -63,18 +55,41 @@ class Select extends JPanel implements Runnable {
 		Image back = createImage(size.width, size.height);
 		Graphics buffer = back.getGraphics();
 		super.paintComponent(buffer);
-		
 		buffer.setColor(Color.WHITE);
 		buffer.setFont(new Font("TimesRoman", Font.BOLD, 50)); 
-    buffer.drawString(musics.get(0).title, 50, 70);
+    buffer.drawString(musics.get(pointer).title, 50, 70);
 
 		buffer.setColor(Color.GRAY);
 		buffer.setFont(new Font("TimesRoman", Font.BOLD, 40)); 
-    buffer.drawString(musics.get(1).title, 130, 120);
-		buffer.drawString(musics.get(2).title, 210, 170);
-		buffer.drawString(musics.get(3).title, 290, 220);
-		buffer.drawString(musics.get(4).title, 370, 270);
-		
+		for (int i = 0; i < Math.min(4, file_num - pointer - 1); i++) {
+			buffer.drawString(musics.get(pointer + i + 1).title, 130 + 80 * i, 120 + 50 * i);
+		}
 		g.drawImage(back, 0, 0, this);
+		requestFocusInWindow();
 	}
+	public void keyPressed(KeyEvent e){
+		int keyCode = e.getKeyCode();
+		switch (keyCode) {
+		case KeyEvent.VK_ENTER:
+			DataServer.setSelectedFileName(musics.get(pointer).name);
+			flag = false;
+			System.out.println("Selected");
+			System.out.println(mainFrame);
+			mainFrame = (JFrame)SwingUtilities.getAncestorOfClass(Menu.class, this);
+			System.out.println(mainFrame);
+			mainFrame.setSize(800, 700);
+			Game gamePanel = new Game(DataServer.getSelectedFileName());
+			mainFrame.getContentPane().add(gamePanel);
+			gamePanel.setVisible(true);
+			new Thread(gamePanel).start();
+			break;
+		}
+  }
+
+  public void keyReleased(KeyEvent e){
+  }
+
+  public void keyTyped(KeyEvent e){
+	
+  }
 }

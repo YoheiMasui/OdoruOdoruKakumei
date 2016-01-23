@@ -1,3 +1,4 @@
+
 // 2015/12/17
 
 import java.awt.*;
@@ -6,6 +7,7 @@ import javax.swing.table.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.event.*;
+import java.io.*;
 
 class ScoreMaker extends JFrame {
 	int lineNum = 0;
@@ -22,6 +24,22 @@ class ScoreMaker extends JFrame {
 		this.setTitle("Score Maker");
 		this.setSize(400, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JMenuBar menubar = new JMenuBar();
+
+		JMenu menu1 = new JMenu("File");
+
+		menubar.add(menu1);
+
+		JMenuItem menuitem1 = new JMenuItem("open");
+		JMenuItem menuitem2 = new JMenuItem("save as");
+
+		menu1.add(menuitem1);
+		menu1.add(menuitem2);
+
+		setJMenuBar(menubar);
+		
+		menuitem2.addActionListener(new itemClicked(this));
 		
 		String[] columnNames = {"f","left","down","up","right"};
 		tableModel = new DefaultTableModel(columnNames, 0) {
@@ -67,13 +85,62 @@ class ScoreMaker extends JFrame {
 	
 		this.setVisible(true);	
 	}
+	class itemClicked implements ActionListener {
+		JFrame f;
+		itemClicked(JFrame f) {
+			this.f = f;
+		}
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser filechooser = new JFileChooser();
+			filechooser.setDialogTitle("名前を付けて保存");
 
+			int selected = filechooser.showSaveDialog(f);
+			if (selected == JFileChooser.APPROVE_OPTION){
+				File file = filechooser.getSelectedFile();
+			
+				try{
+					if (file.createNewFile()){
+						FileWriter filewriter = new FileWriter(file);
+						System.out.println("ファイルの作成に成功しました");
+						// while(int now_r != lineNum || int now_c != 4){
+						// 	if(table.getValueat(now_r,now_c) == 1){
+						// 		if(now_r == 1){
+						// 			left.add(table.getValueat(0,now_c),);
+						// 			left.add()
+													 
+						// 		}
+						// 	}
+						  
+							
+						// }
+						for (int i = 1; i <= 4; i++) {
+							for (int j = 0; j < lineNum; j++) {
+								if (status.get(j)[i] > 0) {
+									filewriter.write(Integer.toString(15 * j));
+									if (j != lineNum - 1) filewriter.write(",");
+								}
+							}
+							filewriter.write("\n");
+						}
+						
+						filewriter.close();
+					}else{
+						System.out.println("ファイルの作成に失敗しました");
+					}
+				}catch(IOException ex){
+					System.out.println(e);
+				}
+			}
+		}
+	}
+	
 	class tableClicked implements MouseListener {
 		int prev_r = -1;
 		int prev_c = -1;
 		public void mouseClicked(MouseEvent e) {
 			int r = table.getSelectedRow();
 			int c = table.getSelectedColumn();
+			if (c == 0) return;
 			if (prev_r == prev_c) {
 				status.get(r)[c]++;
 				status.get(r)[c] %= 3;

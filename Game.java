@@ -42,8 +42,11 @@ class GameGUI extends JComponent {
   int left_marvelous, down_marvelous, up_marvelous, right_marvelous;
   
   public int left_pressed, down_pressed, up_pressed, right_pressed;
-  
+
+	String fileName;
+	
   GameGUI(String fileName) {
+		this.fileName = fileName;
     this.setPreferredSize(new Dimension(800, 700));
     score = new Score(fileName);
     left_arrows_pos = new Position[score.left_arrows.length];
@@ -63,10 +66,11 @@ class GameGUI extends JComponent {
       right_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.right_arrows[i]));
     }
 
-    left_miss = down_miss = up_miss = right_miss = 0;
+    left_miss = down_miss = up_miss = right_miss = 0;			
+  }
 
+	void Play() {
 		// play mp3
-		System.out.println("DEBUG__X : " + fileName);
 		try{
 			File mp3File = new File("./music/" + fileName + "/" + fileName + ".wav");
 			
@@ -80,12 +84,11 @@ class GameGUI extends JComponent {
 		} catch(Exception e) { 
 			e.printStackTrace();
 		}
-				
-  }
-
+	}
+	
   void setValues(int frame_count) {
     this.frame_count = frame_count;
- }
+	}
 
   public void Update() {
     if (left_miss > 0) left_miss --;
@@ -372,6 +375,7 @@ class Game extends JPanel implements Runnable, KeyListener {
 		long idealSleep = (1000 << 16) / fps;
 		long oldTime;
 		long newTime = System.currentTimeMillis() << 16;
+		gGUI.Play();
 		while (true) {
 			oldTime = newTime;
 			Update();
@@ -386,6 +390,7 @@ class Game extends JPanel implements Runnable, KeyListener {
 			} catch (InterruptedException e) { }
 			newTime = System.currentTimeMillis() << 16;
 			error = newTime - oldTime - sleepTime;
+			requestFocusInWindow();
     }
 	}
 
