@@ -294,25 +294,31 @@ class GameGUI extends JComponent {
       }
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
-      if (down_arrows_pos[i].enable) {
-        buffer.drawImage(down_arrow_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
-      } else {
-        buffer.drawImage(down_arrow_n_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
-      }
-    }
+			if (down_arrows_pos[i].visible) {
+				if (down_arrows_pos[i].enable) {
+					buffer.drawImage(down_arrow_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
+				} else {
+					buffer.drawImage(down_arrow_n_img, down_arrows_pos[i].x, down_arrows_pos[i].y, this);
+				}
+			}
+		}
     for (int i = 0; i < up_arrows_pos.length; i++) {
-      if (up_arrows_pos[i].enable) {
-        buffer.drawImage(up_arrow_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
-      } else {
-        buffer.drawImage(up_arrow_n_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
-      }
+			if (up_arrows_pos[i].visible) {
+				if (up_arrows_pos[i].enable) {
+					buffer.drawImage(up_arrow_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
+				} else {
+					buffer.drawImage(up_arrow_n_img, up_arrows_pos[i].x, up_arrows_pos[i].y, this);
+				}
+			}
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      if (right_arrows_pos[i].enable) {
-        buffer.drawImage(right_arrow_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
-      } else {
-        buffer.drawImage(right_arrow_n_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
-      }
+			if (right_arrows_pos[i].visible) {
+				if (right_arrows_pos[i].enable) {
+					buffer.drawImage(right_arrow_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
+				} else {
+					buffer.drawImage(right_arrow_n_img, right_arrows_pos[i].x, right_arrows_pos[i].y, this);
+				}
+			}
     }
 
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 

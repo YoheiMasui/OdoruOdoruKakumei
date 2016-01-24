@@ -1,5 +1,6 @@
 *.class
 *.zip
 music/
+font/*
 *~
 memo
