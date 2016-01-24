@@ -44,6 +44,8 @@ class GameGUI extends JComponent {
   public int left_pressed, down_pressed, up_pressed, right_pressed;
 
 	String fileName;
+
+	Clip line;
 	
   GameGUI(String fileName) {
 		this.fileName = fileName;
@@ -66,24 +68,25 @@ class GameGUI extends JComponent {
       right_arrows_pos[i] = new Position(464, 10 + speed * (300 + Integer.valueOf(score.right_arrows[i])));
     }
 
-    left_miss = down_miss = up_miss = right_miss = 0;			
-  }
+    left_miss = down_miss = up_miss = right_miss = 0;
 
-	void Play() {
-		// play mp3
 		try{
 			File mp3File = new File("./music/" + fileName + "/" + fileName + ".wav");
 			
 			AudioFormat format = AudioSystem.getAudioFileFormat(mp3File).getFormat();
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			Clip line = (Clip)AudioSystem.getLine(info);
+			line = (Clip)AudioSystem.getLine(info);
 			line.open(AudioSystem.getAudioInputStream(mp3File));
-			line.start();
 			System.out.println("MP3 Started.");
 			
 		} catch(Exception e) { 
 			e.printStackTrace();
 		}
+  }
+
+	void Play() {
+		// play mp3
+		line.start();
 	}
 	
   void setValues(int frame_count) {
