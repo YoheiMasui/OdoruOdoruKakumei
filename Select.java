@@ -83,7 +83,18 @@ class Select extends JPanel implements Runnable, KeyListener {
 			gamePanel.setVisible(true);
 			new Thread(gamePanel).start();
 			break;
-		}
+		case KeyEvent.VK_DOWN:
+			if (pointer < file_num - 1) {
+				pointer ++;
+			}
+			break;
+		case KeyEvent.VK_UP:
+			if (pointer > 0) {
+				pointer --;
+			}
+			break;
+		}		
+		repaint();
   }
 
   public void keyReleased(KeyEvent e){
