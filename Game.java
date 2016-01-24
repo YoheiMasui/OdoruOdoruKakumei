@@ -54,16 +54,16 @@ class GameGUI extends JComponent {
     up_arrows_pos = new Position[score.up_arrows.length];
     right_arrows_pos = new Position[score.right_arrows.length];
     for (int i = 0; i < left_arrows_pos.length; i++) {
-      left_arrows_pos[i] = new Position(20, 10 + speed * Integer.valueOf(score.left_arrows[i]));
+      left_arrows_pos[i] = new Position(20, 10 + speed * (300 + Integer.valueOf(score.left_arrows[i])));
     }
     for (int i = 0; i < down_arrows_pos.length; i++) {
-      down_arrows_pos[i] = new Position(168, 10 + speed * Integer.valueOf(score.down_arrows[i]));
+      down_arrows_pos[i] = new Position(168, 10 + speed * (300 + Integer.valueOf(score.down_arrows[i])));
     }
     for (int i = 0; i < up_arrows_pos.length; i++) {
-      up_arrows_pos[i] = new Position(316, 10 + speed * Integer.valueOf(score.up_arrows[i]));
+      up_arrows_pos[i] = new Position(316, 10 + speed * (300 + Integer.valueOf(score.up_arrows[i])));
     }
     for (int i = 0; i < right_arrows_pos.length; i++) {
-      right_arrows_pos[i] = new Position(464, 10 + speed * Integer.valueOf(score.right_arrows[i]));
+      right_arrows_pos[i] = new Position(464, 10 + speed * (300 + Integer.valueOf(score.right_arrows[i])));
     }
 
     left_miss = down_miss = up_miss = right_miss = 0;			
@@ -367,6 +367,7 @@ class Game extends JPanel implements Runnable, KeyListener {
   GameGUI gGUI;
   
 	Game(String fileName) {
+		frame_count = -300;
     this.setBackground(Color.BLACK);
     gGUI = new GameGUI(fileName);
     this.add(gGUI);
@@ -381,10 +382,10 @@ class Game extends JPanel implements Runnable, KeyListener {
 		long idealSleep = (1000 << 16) / fps;
 		long oldTime;
 		long newTime = System.currentTimeMillis() << 16;
-		gGUI.Play();
 		while (true) {
 			oldTime = newTime;
 			Update();
+			if (frame_count == 0) gGUI.Play();
       setValues();
       repaint();
 			newTime = System.currentTimeMillis() << 16;
