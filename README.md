@@ -1,13 +1,9 @@
 # OdoruOdoruKakumei
-This is not DDR!!
+**This is NOT DDR(Dance Dance Revolution)!!!!!!!**
+## 締め切りが近いぞー　急げー
 
-#変更テスト
-
-# configに何を用意するか
-* 音量(MUSICとSE) 
-* キーコンフィグ  
-* window, fullscreen
-
-#問題点
-* layout全般
-* configで要素が選べない
+### やること
+ * 譜面自動生成
+ * ネットワーク対戦
+ * config
+ * ゲームクリアでどーんってやる
