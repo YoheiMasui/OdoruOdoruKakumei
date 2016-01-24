@@ -7,11 +7,34 @@ import java.io.*;
 import javax.sound.sampled.*; 
 import javax.sound.sampled.AudioFormat.Encoding; 
 
+class LCGs {
+	private static int x;
+	public static void setSeed(int seed) {
+		x = seed % 4;
+	}
+	public static int Random() {
+		x = (37 * x + 31) % (int)(1e9 + 7);
+		return x % 4;
+	}
+}
+
 class Main { 
 	public static void main(String argv[]) {
 		try {
 			File file = new File(argv[0]);
 			String path = file.getParent();
+			String name = file.getName();
+			int seed = 0;
+			for (char ch : name.toCharArray()) {
+				seed += ch;
+			}
+			LCGs.setSeed(seed);
+			
+			ArrayList<Integer> left_frames = new ArrayList<Integer>();
+			ArrayList<Integer> down_frames = new ArrayList<Integer>();
+			ArrayList<Integer> up_frames = new ArrayList<Integer>();
+			ArrayList<Integer> right_frames = new ArrayList<Integer>();
+			
 			File write = new File(path + "/scoreMaker3.score");
 			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(write)));
 			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
@@ -57,19 +80,43 @@ class Main {
 							}
 						}
 					}
-					if (num > 5) break;
+					if (num > 15) break;
 				}
 				for (int i = 1; i < 299; i++) {
 					if (data[(i - 1) * frame] < data[i * frame] && data[i * frame] >= data[(i+1) * frame]) {
 						if (data[i * frame] > average * rate) {
-							pw.print(300 * count + i +",");
+							switch (LCGs.Random()) {
+							case 0:
+								left_frames.add(300 * count + i); break;
+							case 1:
+								down_frames.add(300 * count + i); break;
+							case 2:
+								up_frames.add(300 * count + i); break;
+							case 3:
+								right_frames.add(300 * count + i); break;
+							}
 							i += 15;
 						}
 					}
 				}
 				count ++;
 			}
-			pw.println("\n50\n50\n50");
+			for (int i = 0; i < left_frames.size(); i++) {
+				pw.print(left_frames.get(i) + ",");
+			}
+			pw.println("");
+			for (int i = 0; i < down_frames.size(); i++) {
+				pw.print(down_frames.get(i) + ",");
+			}
+			pw.println("");
+			for (int i = 0; i < up_frames.size(); i++) {
+				pw.print(up_frames.get(i) + ",");
+			}
+			pw.println("");
+			for (int i = 0; i < right_frames.size(); i++) {
+				pw.print(right_frames.get(i) + ",");
+			}
+			pw.println("");
 			pw.close();
 		} catch (IOException e) {
 			System.err.println("An IO error occured!!");
