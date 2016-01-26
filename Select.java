@@ -17,6 +17,7 @@ class MusicData {
 
 class Select extends JPanel implements Runnable, KeyListener {
 	ArrayList<MusicData> musics;
+	ArrayList<Image> imgs;
 	int pointer;
 	int file_num;
 	boolean flag;
@@ -28,6 +29,7 @@ class Select extends JPanel implements Runnable, KeyListener {
 		this.addKeyListener(this);
 		System.out.println(mainFrame);
 		musics = new ArrayList<MusicData>();
+		imgs = new ArrayList<Image>();
 		flag = true;
 		File dir = new File("./music");
 		File[] files = dir.listFiles();
@@ -39,6 +41,7 @@ class Select extends JPanel implements Runnable, KeyListener {
 				String title = br.readLine();
 				br.close();
 				musics.add(new MusicData(name, title));
+				imgs.add(Toolkit.getDefaultToolkit().getImage(files[i] + "/" + name + ".png"));
 				System.out.println(name);
 			}
 		} catch (IOException e) { }
@@ -56,16 +59,23 @@ class Select extends JPanel implements Runnable, KeyListener {
 		Graphics buffer = back.getGraphics();
 		super.paintComponent(buffer);
 		buffer.setColor(Color.WHITE);
-		buffer.setFont(new Font("TimesRoman", Font.BOLD, 50)); 
+		buffer.drawImage(imgs.get(pointer), 10, 100, null);
+
+		if (musics.get(pointer).title.length() > 15) {
+			buffer.setFont(new Font("TimesRoman", Font.BOLD, 34)); 
+		} else {
+			buffer.setFont(new Font("TimesRoman", Font.BOLD, 50)); 
+		}
     buffer.drawString(musics.get(pointer).title, 50, 70);
 
-		buffer.setColor(Color.GRAY);
+		buffer.setColor(Color.LIGHT_GRAY);
 		buffer.setFont(new Font("TimesRoman", Font.BOLD, 40)); 
 		for (int i = 0; i < 4; i++) {
 			buffer.drawString(musics.get((pointer + i + 1) % file_num).title, 130 + 80 * i, 120 + 50 * i);
 		}
 		g.drawImage(back, 0, 0, this);
 		requestFocusInWindow();
+		repaint(); //...?? This is necessary
 	}
 	public void keyPressed(KeyEvent e){
 		int keyCode = e.getKeyCode();
@@ -81,11 +91,11 @@ class Select extends JPanel implements Runnable, KeyListener {
 			Game gamePanel = new Game(DataServer.getSelectedFileName());
 			mainFrame.getContentPane().add(gamePanel);
 			gamePanel.setVisible(true);
+			this.setVisible(false);
 			new Thread(gamePanel).start();
 			break;
 		case KeyEvent.VK_DOWN:
 			pointer = (pointer + 1) % file_num;
-
 			break;
 		case KeyEvent.VK_UP:
 		  pointer --;
