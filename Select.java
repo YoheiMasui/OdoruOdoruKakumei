@@ -61,8 +61,8 @@ class Select extends JPanel implements Runnable, KeyListener {
 
 		buffer.setColor(Color.GRAY);
 		buffer.setFont(new Font("TimesRoman", Font.BOLD, 40)); 
-		for (int i = 0; i < Math.min(4, file_num - pointer - 1); i++) {
-			buffer.drawString(musics.get(pointer + i + 1).title, 130 + 80 * i, 120 + 50 * i);
+		for (int i = 0; i < 4; i++) {
+			buffer.drawString(musics.get((pointer + i + 1) % file_num).title, 130 + 80 * i, 120 + 50 * i);
 		}
 		g.drawImage(back, 0, 0, this);
 		requestFocusInWindow();
@@ -84,14 +84,12 @@ class Select extends JPanel implements Runnable, KeyListener {
 			new Thread(gamePanel).start();
 			break;
 		case KeyEvent.VK_DOWN:
-			if (pointer < file_num - 1) {
-				pointer ++;
-			}
+			pointer = (pointer + 1) % file_num;
+
 			break;
 		case KeyEvent.VK_UP:
-			if (pointer > 0) {
-				pointer --;
-			}
+		  pointer --;
+			if (pointer < 0) pointer = file_num - 1;
 			break;
 		}		
 		repaint();
