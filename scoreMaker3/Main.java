@@ -80,7 +80,7 @@ class Main {
 							}
 						}
 					}
-					if (num > 15) break;
+					if (num > 20) break;
 				}
 				for (int i = 1; i < 299; i++) {
 					if (data[(i - 1) * frame] < data[i * frame] && data[i * frame] >= data[(i+1) * frame]) {

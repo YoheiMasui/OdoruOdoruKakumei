@@ -15,7 +15,6 @@ class Menu extends JFrame implements Runnable {
 	CursorObservable cursorObservable;
 
 	public void run() {
-    /*
 		long error = 0;
 		int fps = 60;
 		long idealSleep = (1000 << 16) / fps;
@@ -33,7 +32,7 @@ class Menu extends JFrame implements Runnable {
 			} catch (Exception e) { }
 			newTime = System.currentTimeMillis() << 16;
 			error = newTime - oldTime - sleepTime;
-      }	*/
+      }	
 	}
 
 	void Update() {
