@@ -1,6 +1,3 @@
-
-// 2015/12/17
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -102,17 +99,7 @@ class ScoreMaker extends JFrame {
 					if (file.createNewFile()){
 						FileWriter filewriter = new FileWriter(file);
 						System.out.println("ファイルの作成に成功しました");
-						// while(int now_r != lineNum || int now_c != 4){
-						// 	if(table.getValueat(now_r,now_c) == 1){
-						// 		if(now_r == 1){
-						// 			left.add(table.getValueat(0,now_c),);
-						// 			left.add()
-													 
-						// 		}
-						// 	}
-						  
-							
-						// }
+
 						for (int i = 1; i <= 4; i++) {
 							for (int j = 0; j < lineNum; j++) {
 								if (status.get(j)[i] > 0) {
@@ -163,16 +150,16 @@ class ScoreMaker extends JFrame {
 
 			switch(type) {
 			case Add1s:  
-				for (int i = 0; i < 4; i++) {
-					String[] new_column = { Integer.toString(15 * lineNum++), "","","",""};
+				for (int i = 0; i < 60; i++) {
+					String[] new_column = { Integer.toString(lineNum++), "","","",""};
 					tableModel.addRow(new_column);
 					status.add(new int[5]);
 					
 				}
 				break;
 			case Add10s:
-				for (int i = 0; i < 40; i++) {
-					String[] new_column = { Integer.toString(15 * lineNum++), "","","",""};
+				for (int i = 0; i < 600; i++) {
+					String[] new_column = { Integer.toString(lineNum++), "","","",""};
 					tableModel.addRow(new_column);
 					status.add(new int[5]);
 				}
@@ -184,7 +171,7 @@ class ScoreMaker extends JFrame {
 					tableModel.removeRow(selectedLine);
 					lineNum--;
 					for (int i = selectedLine; i < lineNum; i++){
-						tableModel.setValueAt(15 * i, i, 0);
+						tableModel.setValueAt(i, i, 0);
 					}
 				}
 				break;

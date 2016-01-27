@@ -154,6 +154,7 @@ class GameGUI extends JComponent {
       if (left_arrows_pos[i].visible && left_arrows_pos[i].enable && left_arrows_pos[i].y < 10 - 4 * speed) {
         left_arrows_pos[i].enable = false;
         left_miss = 10;
+				HP --;
       }
       if (left_arrows_pos[i].y > -200) {
         left_arrows_pos[i].y -= speed;
@@ -163,6 +164,7 @@ class GameGUI extends JComponent {
       if (down_arrows_pos[i].visible && down_arrows_pos[i].enable && down_arrows_pos[i].y < 10 - 4 * speed) {
         down_arrows_pos[i].enable = false;
         down_miss = 10;
+				HP --;
       }
       if (down_arrows_pos[i].y > -200) {
         down_arrows_pos[i].y -= speed;
@@ -172,6 +174,7 @@ class GameGUI extends JComponent {
       if (up_arrows_pos[i].visible && up_arrows_pos[i].enable && up_arrows_pos[i].y < 10 - 4 * speed) {
         up_arrows_pos[i].enable = false;
         up_miss = 10;
+				HP --;
       }
       if (up_arrows_pos[i].y > -200) {
         up_arrows_pos[i].y -= speed;
@@ -181,6 +184,7 @@ class GameGUI extends JComponent {
       if (right_arrows_pos[i].visible && right_arrows_pos[i].enable && right_arrows_pos[i].y < 10 - 4 * speed) {
         right_arrows_pos[i].enable = false;
         right_miss = 10;
+				HP --;
       }
       if (right_arrows_pos[i].y > -200) {
         right_arrows_pos[i].y -= speed;
@@ -384,19 +388,15 @@ class GameGUI extends JComponent {
     buffer.setColor(Color.RED);
     if (left_miss > 0) {
 			buffer.drawString("Miss...", 20, 120);
-			HP --;
 		}
     if (down_miss > 0) {
 			buffer.drawString("Miss...", 168, 120);
-			HP --;
 		}
     if (up_miss > 0) {
 			buffer.drawString("Miss...", 316, 120);
-			HP --;
 		}
 		if (right_miss > 0) {
 			buffer.drawString("Miss...", 464, 120);
-			HP --;
 		}
 		buffer.setColor(Color.CYAN);
     if (left_good > 0) buffer.drawString("GOOD", 20, 120);
