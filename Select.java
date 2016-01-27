@@ -22,12 +22,14 @@ class Select extends JPanel implements Runnable, KeyListener {
 	int file_num;
 	boolean flag;
 	JFrame mainFrame;
-	Select() {
+	Menu menu;
+	Select(Menu menu) {
 		this.setBackground(Color.BLACK);
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		System.out.println(mainFrame);
+		this.menu = menu;
 		musics = new ArrayList<MusicData>();
 		imgs = new ArrayList<Image>();
 		flag = true;
@@ -83,12 +85,9 @@ class Select extends JPanel implements Runnable, KeyListener {
 		case KeyEvent.VK_ENTER:
 			DataServer.setSelectedFileName(musics.get(pointer).name);
 			flag = false;
-			System.out.println("Selected");
-			System.out.println(mainFrame);
 			mainFrame = (JFrame)SwingUtilities.getAncestorOfClass(Menu.class, this);
-			System.out.println(mainFrame);
 			mainFrame.setSize(800, 700);
-			Game gamePanel = new Game(DataServer.getSelectedFileName());
+			Game gamePanel = new Game(DataServer.getSelectedFileName(), menu);
 			mainFrame.getContentPane().add(gamePanel);
 			gamePanel.setVisible(true);
 			this.setVisible(false);

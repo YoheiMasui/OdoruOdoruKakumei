@@ -109,7 +109,7 @@ class Menu extends JFrame implements Runnable {
 				int idx = cursorObservable.getValue();
 				switch (idx) {
 				case MENU_INDEX.Single :
-          selectPanel = new Select();
+          selectPanel = new Select(Menu.this);
 					//setSize(800, 700);
 					menuPanel.setVisible(false);
 					getContentPane().add(selectPanel);
