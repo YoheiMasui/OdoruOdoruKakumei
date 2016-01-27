@@ -35,7 +35,8 @@ class ScoreMaker extends JFrame {
 		menu1.add(menuitem2);
 
 		setJMenuBar(menubar);
-		
+
+		menuitem1.addActionListener(new fileOpenItem());
 		menuitem2.addActionListener(new itemClicked(this));
 		
 		String[] columnNames = {"f","left","down","up","right"};
@@ -82,6 +83,68 @@ class ScoreMaker extends JFrame {
 	
 		this.setVisible(true);	
 	}
+	class fileOpenItem implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fileChooser = new JFileChooser();
+
+			int selected = fileChooser.showOpenDialog(ScoreMaker.this);
+			if (selected == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(file));
+					String[] left_arrows = br.readLine().split(",", 0);
+					String[] down_arrows = br.readLine().split(",", 0);
+					String[] up_arrows = br.readLine().split(",", 0);
+					String[] right_arrows = br.readLine().split(",", 0);
+					for (int i = 0; i < lineNum; i++) {
+						tableModel.removeRow(0);
+					}
+					lineNum = 0;
+
+					int line_max = 0;
+					for (int i = 0; i < left_arrows.length; i++) {
+						line_max = Math.max(line_max, Integer.valueOf(left_arrows[i]));
+					}
+					for (int i = 0; i < down_arrows.length; i++) {
+						line_max = Math.max(line_max, Integer.valueOf(down_arrows[i]));	 
+					}
+					for (int i = 0; i < up_arrows.length; i++) {
+						line_max = Math.max(line_max, Integer.valueOf(up_arrows[i]));
+					}
+					for (int i = 0; i < right_arrows.length; i++) {
+						line_max = Math.max(line_max, Integer.valueOf(right_arrows[i]));
+					}
+					
+					for (int i = 0; i < line_max; i++) {
+						String[] new_column = { Integer.toString(lineNum++), "","","",""};
+						status.add(new int[5]);
+						tableModel.addRow(new_column);
+					}
+					for (int i = 0; i < left_arrows.length; i++) {
+						int r = Integer.valueOf(left_arrows[i]);
+						status.get(r)[1] = 1;
+						table.setValueAt(status.get(r)[1] == 0 ? "" : status.get(r)[1], r, 1);
+					}
+					for (int i = 0; i < down_arrows.length; i++) {
+						int r = Integer.valueOf(down_arrows[i]);
+						status.get(r)[2] = 1;
+						table.setValueAt(status.get(r)[2] == 0 ? "" : status.get(r)[2], r, 2);						
+					}
+					for (int i = 0; i < up_arrows.length; i++) {
+						int r = Integer.valueOf(up_arrows[i]);
+						status.get(r)[3] = 1;
+						table.setValueAt(status.get(r)[3] == 0 ? "" : status.get(r)[3], r, 3);						
+					}
+					for (int i = 0; i < right_arrows.length; i++) {
+						int r = Integer.valueOf(right_arrows[i]);
+						status.get(r)[4] = 1;
+						table.setValueAt(status.get(r)[4] == 0 ? "" : status.get(r)[4], r, 4);						
+					}
+				} catch (Exception ex) { }
+			}
+		}
+	}
+	
 	class itemClicked implements ActionListener {
 		JFrame f;
 		itemClicked(JFrame f) {
