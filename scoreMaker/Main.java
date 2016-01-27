@@ -15,7 +15,7 @@ class ScoreMaker extends JFrame {
 	final int Preview = 4;
 	ArrayList<int[]> status = new ArrayList<int[]>();
 	DefaultTableModel tableModel;
-
+	String name;
 
 	ScoreMaker() {
 		this.setTitle("Score Maker");
@@ -90,6 +90,8 @@ class ScoreMaker extends JFrame {
 			int selected = fileChooser.showOpenDialog(ScoreMaker.this);
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				File file = fileChooser.getSelectedFile();
+				name = file.getName().replace(".score", "");
+				System.out.println(name);
 				try {
 					BufferedReader br = new BufferedReader(new FileReader(file));
 					String[] left_arrows = br.readLine().split(",", 0);
@@ -239,6 +241,30 @@ class ScoreMaker extends JFrame {
 				}
 				break;
 			case Preview:
+				File file = new File("../music/" + name + "/preview.tmp");
+			
+				try{
+					FileWriter filewriter = new FileWriter(file);
+					for (int i = 1; i <= 4; i++) {
+						for (int j = 0; j < lineNum; j++) {
+							if (status.get(j)[i] > 0) {
+								filewriter.write(Integer.toString(15 * j));
+								if (j != lineNum - 1) filewriter.write(",");
+							}
+						}
+						filewriter.write("\n");
+					}
+					
+					filewriter.close();
+				}catch(IOException ex){
+					System.out.println(e);
+				}
+				Game game = new Game(name, null);
+				JFrame prevFrame = new JFrame();
+				prevFrame.setSize(800, 700);
+				prevFrame.add(game);
+				prevFrame.setVisible(true);
+				new Thread(game).start();
 				break;
 			}
 		}
