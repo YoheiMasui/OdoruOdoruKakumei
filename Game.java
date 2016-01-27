@@ -55,9 +55,9 @@ class GameGUI extends JComponent {
 	FloatControl control;
 	float volume;
 	int scoring;
-	Menu menu;
+	JFrame menu;
 	float vol;
-  GameGUI(String fileName, Menu menu, float vol) {
+  GameGUI(String fileName, JFrame menu, float vol) {
 		this.vol = vol;
 		this.fileName = fileName;
     this.setPreferredSize(new Dimension(800, 700));
@@ -536,7 +536,7 @@ class Game extends JPanel implements Runnable, KeyListener {
 	float[] volumes = { 1.0f, 1.0f };
 	int[] KeyVals = { 37, 40, 38, 39 };
 	
-	Game(String fileName, Menu menu) {
+	Game(String fileName, JFrame menu) {
 		frame_count = -300;
     this.setBackground(Color.BLACK);
 		try {

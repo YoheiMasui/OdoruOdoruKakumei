@@ -22,8 +22,8 @@ class Select extends JPanel implements Runnable, KeyListener {
 	int file_num;
 	boolean flag;
 	JFrame mainFrame;
-	Menu menu;
-	Select(Menu menu) {
+  JFrame menu;
+	Select(JFrame menu) {
 		this.setBackground(Color.BLACK);
 		this.setVisible(true);
 		this.setFocusable(true);
