@@ -145,8 +145,7 @@ class GameGUI extends JComponent {
 			if (volume < 0) volume = 0;
 			return;
 		}
-		if (line.getMicrosecondLength() == line.getMicrosecondPosition() &&
-				maxFrame > frame_count) {
+		if (maxFrame < frame_count && line.getMicrosecondLength() == line.getMicrosecondPosition()) {
 			gameClear = true;
 			return;
 		}
@@ -203,6 +202,7 @@ class GameGUI extends JComponent {
             System.out.println("MARVELOUS!!!");
             left_marvelous = 10;
             left_arrows_pos[i].visible = false;
+						HP ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
@@ -232,6 +232,7 @@ class GameGUI extends JComponent {
             System.out.println("MARVELOUS!!!");
             down_marvelous = 10;
             down_arrows_pos[i].visible = false;
+						HP ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
@@ -261,6 +262,7 @@ class GameGUI extends JComponent {
             System.out.println("MARVELOUS!!!");
             up_marvelous = 10;
             up_arrows_pos[i].visible = false;
+						HP ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
@@ -290,6 +292,7 @@ class GameGUI extends JComponent {
             System.out.println("MARVELOUS!!!");
             right_marvelous = 10;
             right_arrows_pos[i].visible = false;
+						HP ++;			
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
@@ -416,19 +419,15 @@ class GameGUI extends JComponent {
     buffer.setColor(Color.ORANGE);
     if (left_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 20, 120);
-			HP ++;
 		}
 		if (down_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 168, 120);
-			HP ++;
 		}
 		if (up_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 316, 120);
-			HP ++;
 		}
 		if (right_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 464, 120);
-			HP ++;
 		}
 		if (HP > 30) HP = 30;
     // DEBUG
