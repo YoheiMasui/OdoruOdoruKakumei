@@ -248,8 +248,8 @@ class ScoreMaker extends JFrame {
 					for (int i = 1; i <= 4; i++) {
 						for (int j = 0; j < lineNum; j++) {
 							if (status.get(j)[i] > 0) {
-								filewriter.write(Integer.toString(15 * j));
-								if (j != lineNum - 1) filewriter.write(",");
+								filewriter.write(Integer.toString(j));
+								filewriter.write(",");
 							}
 						}
 						filewriter.write("\n");

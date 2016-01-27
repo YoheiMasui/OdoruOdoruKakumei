@@ -9,7 +9,7 @@ class Menu extends JFrame implements Runnable {
 	int color_red, color_green;
 	int v = 1;
 	JLabel titleLogo;
-	JPanel menuPanel, configPanel;
+	JPanel menuPanel;
 	Select selectPanel;
 	Game gamePanel;
 	CursorObservable cursorObservable;
@@ -51,7 +51,6 @@ class Menu extends JFrame implements Runnable {
 
 	Menu() {
 		menuPanel = new JPanel();
-		configPanel = new ConfigPanel();
 		cursorObservable = new CursorObservable();
 		this.setSize(620, 480);
 		this.setTitle("Odoru Odoru Kakumei");
@@ -82,9 +81,7 @@ class Menu extends JFrame implements Runnable {
 		menuPanel.add(Selectable, BorderLayout.CENTER);
 		menuPanel.addKeyListener(new menuKeyPressed());
 		menuPanel.setFocusable(true);
-		//this.add(configPanel);
 		this.add(menuPanel);
-		//configPanel.setVisible(true);
 		menuPanel.setVisible(true);
 
 		this.setVisible(true);
@@ -124,10 +121,12 @@ class Menu extends JFrame implements Runnable {
 				case MENU_INDEX.Network :
 					break;
 				case MENU_INDEX.Config :
-					//getContentPane().removeAll();
-					menuPanel.setVisible(false);
-					add(configPanel);
-					configPanel.setVisible(true);
+					JFrame configFrame = new JFrame();
+					configFrame.setSize(640, 480);
+					ConfigPanel configPanel = new ConfigPanel(configFrame);
+					setVisible(false);
+					configFrame.add(configPanel);
+					configFrame.setVisible(true);
 					break;
 				case MENU_INDEX.Exit :
 					System.exit(0);
