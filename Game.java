@@ -56,7 +56,9 @@ class GameGUI extends JComponent {
 	float volume;
 	int scoring;
 	Menu menu;
-  GameGUI(String fileName, Menu menu) {
+	float vol;
+  GameGUI(String fileName, Menu menu, float vol) {
+		this.vol = vol;
 		this.fileName = fileName;
     this.setPreferredSize(new Dimension(800, 700));
     score = new Score(fileName);
@@ -111,6 +113,7 @@ class GameGUI extends JComponent {
 
 	void Play() {
 		// play mp3
+		control.setValue((float)Math.log10(vol) * 20);
 		line.start();
 	}
 	
@@ -119,7 +122,9 @@ class GameGUI extends JComponent {
 	}
 
   public void Update() {
-		control.setValue((float)Math.log10(volume) * 20);
+		float v = Math.min(volume, vol);
+		if (v <= 0) v = 0;
+		control.setValue((float)Math.log10(v) * 20);
     if (left_miss > 0) left_miss --;
     if (down_miss > 0) down_miss --;
     if (up_miss > 0) up_miss --;
@@ -207,26 +212,22 @@ class GameGUI extends JComponent {
         if (left_arrows_pos[i].visible && left_arrows_pos[i].enable) {
           int diff = Math.abs(left_arrows_pos[i].y - 10);
           if (diff <= speed) {
-            System.out.println("MARVELOUS!!!");
             left_marvelous = 10;
             left_arrows_pos[i].visible = false;
 						HP ++;
 						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
-            System.out.println("PERFECT!!");
             left_perfect = 10;
             left_arrows_pos[i].visible = false;
 						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
-            System.out.println("GREAT!");
             left_great = 10;
             left_arrows_pos[i].visible = false;
 						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
-            System.out.println("GOOD!");
             left_good = 10;
             left_arrows_pos[i].visible = false;
 						pressed[3] ++;
@@ -241,26 +242,22 @@ class GameGUI extends JComponent {
         if (down_arrows_pos[i].visible && down_arrows_pos[i].enable) {
           int diff = Math.abs(down_arrows_pos[i].y - 10);
           if (diff <= speed) {
-            System.out.println("MARVELOUS!!!");
             down_marvelous = 10;
             down_arrows_pos[i].visible = false;
 						HP ++;
 						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
-            System.out.println("PERFECT!!");
             down_perfect = 10;
             down_arrows_pos[i].visible = false;
 						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
-            System.out.println("GREAT!");
             down_great = 10;
             down_arrows_pos[i].visible = false;
 						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
-            System.out.println("GOOD!");
             down_good = 10;
             down_arrows_pos[i].visible = false;
 						pressed[3] ++;
@@ -275,26 +272,22 @@ class GameGUI extends JComponent {
         if (up_arrows_pos[i].visible && up_arrows_pos[i].enable) {
           int diff = Math.abs(up_arrows_pos[i].y - 10);
           if (diff <= speed) {
-            System.out.println("MARVELOUS!!!");
             up_marvelous = 10;
             up_arrows_pos[i].visible = false;
 						HP ++;
 						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
-            System.out.println("PERFECT!!");
             up_perfect = 10;
             up_arrows_pos[i].visible = false;
 						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
-            System.out.println("GREAT!");
             up_great = 10;
             up_arrows_pos[i].visible = false;
 						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
-            System.out.println("GOOD!");
             up_good = 10;
             up_arrows_pos[i].visible = false;
 						pressed[3] ++;
@@ -309,26 +302,22 @@ class GameGUI extends JComponent {
         if (right_arrows_pos[i].visible && right_arrows_pos[i].enable) {
           int diff = Math.abs(right_arrows_pos[i].y - 10);
           if (diff <= speed) {
-            System.out.println("MARVELOUS!!!");
             right_marvelous = 10;
             right_arrows_pos[i].visible = false;
 						HP ++;
 						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
-            System.out.println("PERFECT!!");
             right_perfect = 10;
             right_arrows_pos[i].visible = false;
 						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
-            System.out.println("GREAT!");
             right_great = 10;
             right_arrows_pos[i].visible = false;
 						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
-            System.out.println("GOOD!");
             right_good = 10;
             right_arrows_pos[i].visible = false;
 						pressed[3] ++;
@@ -543,15 +532,29 @@ class Game extends JPanel implements Runnable, KeyListener {
   int speed = 5;
 	JLabel frame_count_label;
   GameGUI gGUI;
-  
+
+	float[] volumes = { 1.0f, 1.0f };
+	int[] KeyVals = { 37, 40, 38, 39 };
+	
 	Game(String fileName, Menu menu) {
 		frame_count = -300;
     this.setBackground(Color.BLACK);
-    gGUI = new GameGUI(fileName, menu);
+		try {
+			FileReader fr = new FileReader("./ook.cfg");
+			BufferedReader br = new BufferedReader(fr);
+			for (int i = 0; i < 2; i++) {
+				volumes[i] = Integer.valueOf(br.readLine()) / 100.0f;
+			}
+			for (int i = 0; i < 4; i++) {
+				KeyVals[i] = Integer.valueOf(br.readLine());
+			}
+		} catch (Exception ex) { }
+		gGUI = new GameGUI(fileName, menu, volumes[0]);
     this.add(gGUI);
     this.setVisible(true);
     this.addKeyListener(this);
     this.setFocusable(true);
+
 	}
 
 	public void run() {
@@ -590,25 +593,14 @@ class Game extends JPanel implements Runnable, KeyListener {
 
   public void keyPressed(KeyEvent e) {
     int keyCode = e.getKeyCode();
-    switch (keyCode) {
-    case KeyEvent.VK_SHIFT :
-      System.out.println("SHIFT PRESSED");
-      break;
-    case KeyEvent.VK_LEFT :
-      gGUI.Pressed(0);
-      break;
-    case KeyEvent.VK_DOWN :
-      gGUI.Pressed(1);
-      break;
-    case KeyEvent.VK_UP :
-      gGUI.Pressed(2);
-      break;
-    case KeyEvent.VK_RIGHT :
-      gGUI.Pressed(3);
-      break;
-		case KeyEvent.VK_ENTER :
+		for (int i = 0; i < 4; i++) {
+			if (keyCode == KeyVals[i]) {
+				gGUI.Pressed(i);
+				return ;
+			}
+		}
+		if (keyCode == KeyEvent.VK_ENTER) {			
 			gGUI.Pressed(4);
-			break;
     }
 		
   }
