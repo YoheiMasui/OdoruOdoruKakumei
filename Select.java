@@ -23,13 +23,16 @@ class Select extends JPanel implements Runnable, KeyListener {
 	boolean flag;
 	JFrame mainFrame;
   JFrame menu;
-	Select(JFrame menu) {
+	BufferedWriter bw;
+	Select(JFrame menu, JFrame mainFrame, BufferedWriter bw) {
 		this.setBackground(Color.BLACK);
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		System.out.println(mainFrame);
 		this.menu = menu;
+		this.mainFrame = mainFrame;
+		this.bw = bw;
 		musics = new ArrayList<MusicData>();
 		imgs = new ArrayList<Image>();
 		flag = true;
@@ -85,10 +88,18 @@ class Select extends JPanel implements Runnable, KeyListener {
 		case KeyEvent.VK_ENTER:
 			DataServer.setSelectedFileName(musics.get(pointer).name);
 			flag = false;
-			mainFrame = (JFrame)SwingUtilities.getAncestorOfClass(Menu.class, this);
+			if (mainFrame == null)
+				mainFrame = (JFrame)SwingUtilities.getAncestorOfClass(Menu.class, this);
 			mainFrame.setSize(800, 700);
-			Game gamePanel = new Game(DataServer.getSelectedFileName(), menu);
+			Game gamePanel = new Game(DataServer.getSelectedFileName(), menu, bw);
 			mainFrame.getContentPane().add(gamePanel);
+			if (bw != null) {
+				try {
+					bw.write(DataServer.getSelectedFileName());
+					bw.newLine();
+					bw.flush();
+				} catch (Exception ex) { }
+			}
 			gamePanel.setVisible(true);
 			this.setVisible(false);
 			new Thread(gamePanel).start();

@@ -365,6 +365,9 @@ class GameGUI extends JComponent {
 			buffer.drawString("GOOD     : " + pressed[3], 200, 350);
 			buffer.setColor(Color.RED);
 			buffer.drawString("MISS     : " + pressed[4], 200, 400);
+			buffer.setColor(Color.WHITE);
+			
+			buffer.drawString("Score    : " + scoring, 200, 460);
 			g.drawImage(back, 0, 0, this);
 			return;
 		}
@@ -535,10 +538,11 @@ class Game extends JPanel implements Runnable, KeyListener {
 
 	float[] volumes = { 1.0f, 1.0f };
 	int[] KeyVals = { 37, 40, 38, 39 };
-	
-	Game(String fileName, JFrame menu) {
+	BufferedWriter bw;
+	Game(String fileName, JFrame menu, BufferedWriter bw) {
 		frame_count = -300;
     this.setBackground(Color.BLACK);
+		this.bw = bw;
 		try {
 			FileReader fr = new FileReader("./ook.cfg");
 			BufferedReader br = new BufferedReader(fr);
@@ -596,6 +600,13 @@ class Game extends JPanel implements Runnable, KeyListener {
 		for (int i = 0; i < 4; i++) {
 			if (keyCode == KeyVals[i]) {
 				gGUI.Pressed(i);
+				if (bw != null) {
+					try {
+						bw.write(Integer.toString(i));
+						bw.newLine();
+						bw.flush();
+					} catch (Exception ex) { }
+				}
 				return ;
 			}
 		}
