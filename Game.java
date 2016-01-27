@@ -26,6 +26,7 @@ class GameGUI extends JComponent {
   Score score;
   int speed = 5;
 	int maxFrame;
+	int[] pressed;
 	
   final Image left_arrow_img = Toolkit.getDefaultToolkit().getImage("./img/l.png");
   final Image left_arrow_n_img = Toolkit.getDefaultToolkit().getImage("./img/l_n.png");
@@ -53,14 +54,17 @@ class GameGUI extends JComponent {
 	Clip line;
 	FloatControl control;
 	float volume;
+	int scoring;
 	Menu menu;
   GameGUI(String fileName, Menu menu) {
 		this.fileName = fileName;
     this.setPreferredSize(new Dimension(800, 700));
     score = new Score(fileName);
 		HP = 30;
+		pressed = new int[5];
 		this.menu = menu;
 		volume = 1.0f;
+		scoring = 0;
 		gameOver = false;
 		gameClear = false;
     left_arrows_pos = new Position[score.left_arrows.length];
@@ -141,8 +145,8 @@ class GameGUI extends JComponent {
 			gameOver = true;
 		}
 		if (gameOver) {
-			volume -= 0.05;
-			if (volume < 0) volume = 0;
+			volume -= 0.01;
+			if (volume <= 0) volume = 0;
 			return;
 		}
 		if (maxFrame < frame_count && line.getMicrosecondLength() == line.getMicrosecondPosition()) {
@@ -154,6 +158,7 @@ class GameGUI extends JComponent {
         left_arrows_pos[i].enable = false;
         left_miss = 10;
 				HP --;
+				pressed[4] ++;
       }
       if (left_arrows_pos[i].y > -200) {
         left_arrows_pos[i].y -= speed;
@@ -164,6 +169,7 @@ class GameGUI extends JComponent {
         down_arrows_pos[i].enable = false;
         down_miss = 10;
 				HP --;
+				pressed[4] ++;
       }
       if (down_arrows_pos[i].y > -200) {
         down_arrows_pos[i].y -= speed;
@@ -174,6 +180,7 @@ class GameGUI extends JComponent {
         up_arrows_pos[i].enable = false;
         up_miss = 10;
 				HP --;
+				pressed[4] ++;
       }
       if (up_arrows_pos[i].y > -200) {
         up_arrows_pos[i].y -= speed;
@@ -184,6 +191,7 @@ class GameGUI extends JComponent {
         right_arrows_pos[i].enable = false;
         right_miss = 10;
 				HP --;
+				pressed[4] ++;
       }
       if (right_arrows_pos[i].y > -200) {
         right_arrows_pos[i].y -= speed;
@@ -203,21 +211,25 @@ class GameGUI extends JComponent {
             left_marvelous = 10;
             left_arrows_pos[i].visible = false;
 						HP ++;
+						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
             left_perfect = 10;
             left_arrows_pos[i].visible = false;
+						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
             System.out.println("GREAT!");
             left_great = 10;
             left_arrows_pos[i].visible = false;
+						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
             System.out.println("GOOD!");
             left_good = 10;
             left_arrows_pos[i].visible = false;
+						pressed[3] ++;
             break;
           }
         }
@@ -233,21 +245,25 @@ class GameGUI extends JComponent {
             down_marvelous = 10;
             down_arrows_pos[i].visible = false;
 						HP ++;
+						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
             down_perfect = 10;
             down_arrows_pos[i].visible = false;
+						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
             System.out.println("GREAT!");
             down_great = 10;
             down_arrows_pos[i].visible = false;
+						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
             System.out.println("GOOD!");
             down_good = 10;
             down_arrows_pos[i].visible = false;
+						pressed[3] ++;
             break;
           }
         }
@@ -263,21 +279,25 @@ class GameGUI extends JComponent {
             up_marvelous = 10;
             up_arrows_pos[i].visible = false;
 						HP ++;
+						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
             up_perfect = 10;
             up_arrows_pos[i].visible = false;
+						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
             System.out.println("GREAT!");
             up_great = 10;
             up_arrows_pos[i].visible = false;
+						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
             System.out.println("GOOD!");
             up_good = 10;
             up_arrows_pos[i].visible = false;
+						pressed[3] ++;
             break;
           }
         }
@@ -292,22 +312,26 @@ class GameGUI extends JComponent {
             System.out.println("MARVELOUS!!!");
             right_marvelous = 10;
             right_arrows_pos[i].visible = false;
-						HP ++;			
+						HP ++;
+						pressed[0] ++;
             break;
           } else if (diff <= speed * 3) {
             System.out.println("PERFECT!!");
             right_perfect = 10;
             right_arrows_pos[i].visible = false;
+						pressed[1] ++;
             break;
           } else if (diff <= speed * 5) {
             System.out.println("GREAT!");
             right_great = 10;
             right_arrows_pos[i].visible = false;
+						pressed[2] ++;
             break;
           } else if (diff <= speed * 7) {
             System.out.println("GOOD!");
             right_good = 10;
             right_arrows_pos[i].visible = false;
+						pressed[3] ++;
             break;
           }
         }
@@ -341,7 +365,17 @@ class GameGUI extends JComponent {
 		if (gameClear) {
 			buffer.setColor(Color.ORANGE);
 			buffer.setFont(new Font("TimesRoman", Font.PLAIN, 70));
-			buffer.drawString("GAME CLEAR", 200, 300);
+			buffer.drawString("GAME CLEAR", 200, 100);
+			buffer.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+			buffer.drawString("MARVELOUS: " + pressed[0], 200, 200);
+			buffer.setColor(Color.YELLOW);
+			buffer.drawString("PERFECT  : " + pressed[1], 200, 250);
+			buffer.setColor(Color.GREEN);
+			buffer.drawString("GREAT    : " + pressed[2], 200, 300);
+			buffer.setColor(Color.CYAN);
+			buffer.drawString("GOOD     : " + pressed[3], 200, 350);
+			buffer.setColor(Color.RED);
+			buffer.drawString("MISS     : " + pressed[4], 200, 400);
 			g.drawImage(back, 0, 0, this);
 			return;
 		}
@@ -402,42 +436,90 @@ class GameGUI extends JComponent {
 			buffer.drawString("Miss...", 464, 120);
 		}
 		buffer.setColor(Color.CYAN);
-    if (left_good > 0) buffer.drawString("GOOD", 20, 120);
-    if (down_good > 0) buffer.drawString("GOOD", 168, 120);
-    if (up_good > 0) buffer.drawString("GOOD", 316, 120);
-    if (right_good > 0) buffer.drawString("GOOD", 464, 120);
-    buffer.setColor(Color.GREEN);
-    if (left_great > 0) buffer.drawString("GREAT!", 20, 120);
-    if (down_great > 0) buffer.drawString("GREAT!", 168, 120);
-    if (up_great > 0) buffer.drawString("GREAT!", 316, 120);
-    if (right_great > 0) buffer.drawString("GREAT!", 464, 120);
+    if (left_good > 0) {
+			buffer.drawString("GOOD", 20, 120);
+			scoring += 1;
+		}
+    if (down_good > 0) {
+			buffer.drawString("GOOD", 168, 120);
+			scoring += 1;
+		}
+		if (up_good > 0) {
+			buffer.drawString("GOOD", 316, 120);
+			scoring += 1;
+		}
+		if (right_good > 0) {
+			buffer.drawString("GOOD", 464, 120);
+			scoring += 1;
+		}
+		buffer.setColor(Color.GREEN);
+    if (left_great > 0) {
+			buffer.drawString("GREAT!", 20, 120);
+			scoring += 2;
+		}
+    if (down_great > 0) {
+			buffer.drawString("GREAT!", 168, 120);
+			scoring += 2;
+		}
+    if (up_great > 0) {
+			buffer.drawString("GREAT!", 316, 120);
+			scoring += 2;
+		}
+    if (right_great > 0) {
+			buffer.drawString("GREAT!", 464, 120);
+			scoring += 2;
+		}
     buffer.setColor(Color.YELLOW);
-    if (left_perfect > 0) buffer.drawString("PERFECT!!", 20, 120);
-    if (down_perfect > 0) buffer.drawString("PERFECT!!", 168, 120);
-    if (up_perfect > 0) buffer.drawString("PERFECT!!", 316, 120);
-    if (right_perfect > 0) buffer.drawString("PERFECT!!", 464, 120);
+    if (left_perfect > 0) {
+			buffer.drawString("PERFECT!!", 20, 120);
+			scoring += 3;
+		}
+    if (down_perfect > 0) {
+			buffer.drawString("PERFECT!!", 168, 120);
+			scoring += 3;
+		}
+    if (up_perfect > 0) {
+			buffer.drawString("PERFECT!!", 316, 120);
+			scoring += 3;
+		}
+    if (right_perfect > 0) {
+			buffer.drawString("PERFECT!!", 464, 120);
+			scoring += 3;
+		}
     buffer.setColor(Color.ORANGE);
     if (left_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 20, 120);
+			scoring += 4;
 		}
 		if (down_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 168, 120);
+			scoring += 4;
 		}
 		if (up_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 316, 120);
+			scoring += 4;
 		}
 		if (right_marvelous > 0) {
 			buffer.drawString("MARVELOUS!!", 464, 120);
+			scoring += 4;
 		}
 		if (HP > 30) HP = 30;
+		// SCOCRE
+		// BEGIN //////////////////////////////////////////////////////
+		buffer.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+		buffer.setColor(Color.GREEN);
+		buffer.drawString("Score", 630, 30);
+		buffer.setColor(Color.WHITE);
+		buffer.drawString(String.format("%1$09d", scoring), 630, 70);
+    // END ///////////////////////////////////////////////////////
     // DEBUG
     // BEGIN //////////////////////////////////////////////////////
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
     buffer.setColor(Color.BLUE);
-    buffer.drawString("DEBUG", 620, 30);
+    buffer.drawString("DEBUG", 620, 530);
     buffer.setFont(new Font("TimesRoman", Font.PLAIN, 15)); 
     buffer.setColor(Color.WHITE);
-    buffer.drawString("frame_count: " + frame_count, 620, 60);
+    buffer.drawString("frame_count: " + frame_count, 620, 560);
     // END ///////////////////////////////////////////////////////
 		// HP
     // BEGIN //////////////////////////////////////////////////////

@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.net.*;
 import java.io.*;
 
+/*
 class Network implements ActionListener {
     JButton ServerButton, ClientButton;
     JFrame SorC, gameFrame;
@@ -56,3 +57,4 @@ class Network implements ActionListener {
 	}
     }
 }
+*/
